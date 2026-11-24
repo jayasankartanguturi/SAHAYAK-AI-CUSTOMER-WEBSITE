@@ -2,17 +2,22 @@ services:
   - type: web
     name: sahayak-ai-api
     runtime: python
+    branch: main
     rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /api/health
     envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
       - key: ENVIRONMENT
         value: production
       - key: ALLOW_DEMO_MODE
         value: "false"
       - key: TRUST_PROXY_HEADERS
         value: "true"
+      - key: MONGODB_DB_NAME
+        value: sahayak_ai
       - key: GEMINI_API_KEY
         sync: false
       - key: MONGODB_URI
@@ -21,13 +26,13 @@ services:
         generateValue: true
       - key: ADMIN_API_KEY
         generateValue: true
+      - key: INTER_SERVICE_SECRET
+        generateValue: true
       - key: DATA_GOV_API_KEY
         sync: false
       - key: GOOGLE_CLIENT_ID
         sync: false
       - key: B2B_API_BASE_URL
-        sync: false
-      - key: INTER_SERVICE_SECRET
         sync: false
       - key: CORS_ORIGINS
         sync: false

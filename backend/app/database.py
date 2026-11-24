@@ -75,7 +75,7 @@ class DatabaseManager:
             return
 
         is_srv = uri.lower().startswith("mongodb+srv://")
-        timeout_ms = 5000 if (settings.IS_PRODUCTION or is_srv) else 1500
+        timeout_ms = 12000 if (settings.IS_PRODUCTION or is_srv) else 1500
         client_kwargs: dict[str, Any] = {
             "serverSelectionTimeoutMS": timeout_ms,
             "connectTimeoutMS": timeout_ms,
