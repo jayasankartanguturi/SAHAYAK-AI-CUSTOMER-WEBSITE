@@ -1,0 +1,28 @@
+# Dependencies & virtual environments
+node_modules/
+backend/.venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Environment & secrets (never commit real keys)
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
+
+# Build outputs
+frontend/dist/
+dist/
+build/
+
+# Logs & OS files
+*.log
+.DS_Store
+Thumbs.db
+
+# Separate B2B repository (maintained independently)
+sahayak-b2b/

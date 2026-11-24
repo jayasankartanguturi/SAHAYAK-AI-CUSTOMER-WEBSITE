@@ -1,0 +1,373 @@
+const DEMO_CARDS = {
+  English: {
+    weekDays: { Mon: 'Mon', Tue: 'Tue', Wed: 'Wed', Thu: 'Thu', Fri: 'Fri' },
+    weatherConditions: {
+      'Partly Cloudy': 'Partly Cloudy',
+      'Sunny & Clear': 'Sunny & Clear',
+      'Coastal Breeze': 'Coastal Breeze',
+      'Light Clouds': 'Light Clouds',
+      Sunny: 'Sunny',
+      Warm: 'Warm',
+      'Light Rain': 'Light Rain',
+    },
+    professionTools: {
+      Farmer: [
+        { title: 'Crop Guidance', desc: 'Seasonal sowing, irrigation & variety recommendations', target: 'ask', prompt: 'Give me seasonal crop guidance for paddy and pulses.' },
+        { title: 'Crop Disease Information', desc: 'Upload leaf photos to inspect spots or pests safely', target: 'image' },
+        { title: 'Fertilizer Guidance', desc: 'Balanced NPK nutrient schedules & soil health tips', target: 'ask', prompt: 'What is the recommended paddy fertilizer and NPK schedule?' },
+        { title: 'Weather & Market Information', desc: '5-day forecast and regional mandi price updates', target: 'weather-market' },
+      ],
+      Fisherman: [
+        { title: 'Marine Weather', desc: 'Check coastal wind, rain & sea condition alerts', target: 'weather-market' },
+        { title: 'Fishing Safety', desc: 'Coast Guard & disaster emergency helplines (112 / 1078)', target: 'emergency' },
+        { title: 'Fisheries Information', desc: 'PMMSY boat, ice box & cold-chain subsidies', target: 'schemes' },
+        { title: 'Aquaculture Advisory', desc: 'Ask AI about pond health, feed & catch storage', target: 'ask', prompt: 'How can fishermen apply for PM Matsya Sampada Yojana?' },
+      ],
+      Student: [
+        { title: 'Education Assistance', desc: 'Career roadmaps, exam prep & skill programs', target: 'ask', prompt: 'Create a structured study plan and career roadmap for college students.' },
+        { title: 'Scholarships', desc: 'Explore NSP & Post-Matric scholarship eligibility', target: 'schemes' },
+        { title: 'Learning Support (PDF)', desc: 'Upload textbook PDFs to summarize & ask questions', target: 'document' },
+        { title: 'Multilingual Study Helper', desc: 'Translate study concepts into Telugu, Hindi & more', target: 'language' },
+      ],
+      'Business Owner': [
+        { title: 'Business Guidance', desc: 'Udyam MSME registration, GST basics & operations', target: 'ask', prompt: 'How do small business owners register for MSME Udyam and GST?' },
+        { title: 'Pricing & Margin Helper', desc: 'Ask AI to structure unit pricing & cost breakdowns', target: 'ask', prompt: 'Help me calculate retail pricing and profit margins for my shop.' },
+        { title: 'Government Support', desc: 'PM Mudra loans & credit guarantee eligibility', target: 'eligibility' },
+        { title: 'Document & Invoice Reader', desc: 'Extract & ask questions on business PDFs', target: 'document' },
+      ],
+      Artisan: [
+        { title: 'Product Guidance', desc: 'Analyze craft photos for catalog & quality tips', target: 'image' },
+        { title: 'Market Information', desc: 'Ask AI about handicraft fairs, GI tags & pricing', target: 'ask', prompt: 'How can traditional artisans market and price their products online?' },
+        { title: 'Support Schemes', desc: 'PM Vishwakarma Rs. 15,000 toolkit & 5% credit', target: 'schemes' },
+        { title: 'Local Craft Clusters', desc: 'Find nearby artisan facilitation centers', target: 'local-info' },
+      ],
+      'Street Vendor': [
+        { title: 'PM SVANidhi Loan Info', desc: 'Working capital starting Rs. 10,000', target: 'schemes' },
+        { title: 'Voice Assistant', desc: 'Ask questions hands-free in your language', target: 'voice' },
+      ],
+      'General Citizen': [
+        { title: 'Scheme Eligibility Check', desc: 'Find welfare schemes matching your profile', target: 'eligibility' },
+        { title: 'Trusted Public Portals', desc: 'Official links & verified update dates', target: 'trusted-sources' },
+      ],
+    },
+    schemes: {
+      'pm-kisan': {
+        name: 'PM-KISAN Samman Nidhi',
+        ministry: 'Ministry of Agriculture & Farmers Welfare',
+        benefit: 'Rs. 6,000 / year in 3 installments',
+        documents: ['Aadhaar Card', 'Landholding Record (RoR)', 'Bank Passbook', 'Mobile Number'],
+      },
+      pmfby: {
+        name: 'Pradhan Mantri Fasal Bima Yojana',
+        ministry: 'Ministry of Agriculture & Farmers Welfare',
+        benefit: 'Crop loss insurance at 1.5%–2% farmer premium',
+        documents: ['Aadhaar Card', 'Sowing Certificate', 'Land/Lease Papers', 'Bank Account'],
+      },
+      pmmsy: {
+        name: 'Pradhan Mantri Matsya Sampada Yojana',
+        ministry: 'Department of Fisheries',
+        benefit: '40%–60% subsidy for boats, safety kits & cold storage',
+        documents: ['Fisherman ID Card', 'Aadhaar Card', 'Bank Details', 'Project Proposal'],
+      },
+      'nsp-scholarship': {
+        name: 'National Scholarship Portal (Post-Matric)',
+        ministry: 'Ministry of Education',
+        benefit: 'Tuition & maintenance allowance based on course',
+        documents: ['Bonafide Certificate', 'Income Certificate', 'Previous Marksheet', 'Aadhaar'],
+      },
+      'pm-mudra': {
+        name: 'PM Mudra Yojana (Shishu / Kishor / Tarun)',
+        ministry: 'Ministry of Finance',
+        benefit: 'Collateral-free business loans up to Rs. 10 Lakh',
+        documents: ['Aadhaar & PAN', 'Business Plan / Shop Proof', 'Bank Statement'],
+      },
+      'pm-vishwakarma': {
+        name: 'PM Vishwakarma Artisan Scheme',
+        ministry: 'Ministry of MSME',
+        benefit: 'Rs. 15,000 toolkit incentive + 5% credit + skill stipend',
+        documents: ['Aadhaar Card', 'Artisan Trade Proof', 'Bank Passbook', 'Ration Card'],
+      },
+    },
+    helplines: [
+      { name: 'National Emergency Number', number: '112', desc: 'All-in-one Police, Fire & Ambulance' },
+      { name: 'Disaster Management (NDMA)', number: '1078', desc: 'Flood, Cyclone & Earthquake response' },
+      { name: 'Ambulance / Medical Emergency', number: '108', desc: '24x7 emergency medical transport' },
+      { name: 'Kisan Call Centre', number: '1800-180-1551', desc: 'Toll-free agricultural & crop helpline' },
+      { name: 'Fire & Rescue', number: '101', desc: 'Immediate fire emergency dispatch' },
+      { name: 'Women & Child Helpline', number: '181 / 1098', desc: '24x7 safety and protection support' },
+    ],
+    localServices: [
+      { name: 'Krishi Vigyan Kendra (KVK), Garikapadu', type: 'Agriculture Office', distance: '14 km (Demo)', hours: '9:30 AM – 5:00 PM' },
+      { name: 'Common Service Centre (CSC) – Benz Circle', type: 'Citizen e-Services', distance: '2.1 km (Demo)', hours: '9:00 AM – 7:00 PM' },
+      { name: 'Rythu Bharosa Kendra (RBK) – Patamata', type: 'Seed & Soil Testing', distance: '3.4 km (Demo)', hours: '9:00 AM – 5:00 PM' },
+      { name: 'District Fisheries Office – Machilipatnam Rd', type: 'Fisheries Support', distance: '4.8 km (Demo)', hours: '10:00 AM – 5:00 PM' },
+      { name: 'Government General Hospital', type: '24x7 Healthcare', distance: '3.9 km (Demo)', hours: 'Open 24 Hours' },
+    ],
+    mandiItems: [
+      { commodity: 'Paddy (Common)', mandi: 'Vijayawada', price: 'Rs. 2,300 / qtl', change: '+1.8%' },
+      { commodity: 'Dry Chilli (Teja)', mandi: 'Guntur', price: 'Rs. 16,400 / qtl', change: '+2.4%' },
+      { commodity: 'Cotton (Medium)', mandi: 'Adilabad', price: 'Rs. 7,120 / qtl', change: '-0.6%' },
+      { commodity: 'Turmeric (Finger)', mandi: 'Duggirala', price: 'Rs. 13,800 / qtl', change: '+3.1%' },
+      { commodity: 'Rohu Fish (Fresh)', mandi: 'Machilipatnam', price: 'Rs. 145 / kg', change: '+1.2%' },
+    ],
+    historyLabels: {
+      'hist-1': { question: 'Asked about PM Kisan Scheme', time: '2 hours ago' },
+      'hist-2': { question: 'Viewed Weather Updates for Vijayawada', time: '3 hours ago' },
+      'hist-3': { question: 'Saved Crop Disease Info', time: '1 day ago' },
+    },
+    notificationLabels: {
+      'notif-1': { title: 'Weather Alert: Heavy Rain Expected', detail: 'Demo Alert: Light to moderate rain forecast in coastal Andhra districts over the next 48 hours.', time: '1h ago' },
+      'notif-2': { title: 'New Government Scheme Launched', detail: 'Demo Update: PM Vishwakarma & PM-KISAN e-KYC camp dates updated for Vijayawada block.', time: '3h ago' },
+      'notif-3': { title: 'Your Support Request is Resolved', detail: 'Ticket #SR-4021 regarding document PDF upload has been marked resolved.', time: '1d ago' },
+    },
+  },
+  Telugu: {
+    weekDays: { Mon: 'సోమ', Tue: 'మంగళ', Wed: 'బుధ', Thu: 'గురు', Fri: 'శుక్ర' },
+    weatherConditions: {
+      'Partly Cloudy': 'పాక్షికంగా మేఘావృతం',
+      'Sunny & Clear': 'ఎండ & స్పష్టమైన ఆకాశం',
+      'Coastal Breeze': 'తీర ప్రాంత గాలి',
+      'Light Clouds': 'తేలికపాటి మేఘాలు',
+      Sunny: 'ఎండగా ఉంది',
+      Warm: 'వేడిగా ఉంది',
+      'Light Rain': 'తేలికపాటి వర్షం',
+    },
+    professionTools: {
+      Farmer: [
+        { title: 'పంట మార్గదర్శనం', desc: 'సీజన్ వారీగా విత్తనాలు, నీటిపారుదల & రకాల సూచనలు', target: 'ask', prompt: 'వరి మరియు పప్పుధాన్యాల కోసం సీజన్ వారీ పంట మార్గదర్శనం ఇవ్వండి.' },
+        { title: 'పంట వ్యాధుల సమాచారం', desc: 'మచ్చలు లేదా పురుగులను తనిఖీ చేయడానికి ఆకు ఫోటో అప్‌లోడ్ చేయండి', target: 'image' },
+        { title: 'ఎరువుల మార్గదర్శనం', desc: 'సమతుల్య NPK పోషక షెడ్యూల్ & నేల ఆరోగ్య చిట్కాలు', target: 'ask', prompt: 'వరి పంటకు సిఫార్సు చేయబడిన NPK ఎరువుల షెడ్యూల్ ఏమిటి?' },
+        { title: 'వాతావరణం & మార్కెట్ సమాచారం', desc: '5 రోజుల వాతావరణ అంచనా మరియు ప్రాంతీయ మండి ధరలు', target: 'weather-market' },
+      ],
+      Fisherman: [
+        { title: 'సముద్ర వాతావరణం', desc: 'తీర గాలులు, వర్షం & సముద్ర పరిస్థితి హెచ్చరికలు చూడండి', target: 'weather-market' },
+        { title: 'వేట భద్రత', desc: 'కోస్ట్ గార్డ్ & విపత్తు అత్యవసర హెల్ప్‌లైన్‌లు (112 / 1078)', target: 'emergency' },
+        { title: 'మత్స్య సమాచారం', desc: 'PMMSY బోట్లు, ఐస్ బాక్స్ & కోల్డ్ చైన్ సబ్సిడీలు', target: 'schemes' },
+        { title: 'ఆక్వాకల్చర్ సలహా', desc: 'చెరువు ఆరోగ్యం, మేత & నిల్వ గురించి AI ని అడగండి', target: 'ask', prompt: 'మత్స్యకారులు పీఎం మత్స్య సంపద యోజనకు ఎలా దరఖాస్తు చేయాలి?' },
+      ],
+      Student: [
+        { title: 'విద్యా సహాయం', desc: 'కెరీర్ రోడ్‌మ్యాప్‌లు, పరీక్షల తయారీ & నైపుణ్య కార్యక్రమాలు', target: 'ask', prompt: 'కళాశాల విద్యార్థుల కోసం చదువు మరియు కెరీర్ ప్రణాళిక రూపొందించండి.' },
+        { title: 'స్కాలర్‌షిప్‌లు', desc: 'NSP & పోస్ట్-మెట్రిక్ స్కాలర్‌షిప్ అర్హతను అన్వేషించండి', target: 'schemes' },
+        { title: 'అభ్యాస సహాయం (PDF)', desc: 'సారాంశం మరియు ప్రశ్నల కోసం పాఠ్యపుస్తక PDFలను అప్‌లోడ్ చేయండి', target: 'document' },
+        { title: 'బహుభాషా అధ్యయన సహాయకుడు', desc: 'అధ్యయన అంశాలను తెలుగు, హిందీ భాషల్లోకి అనువదించండి', target: 'language' },
+      ],
+      'Business Owner': [
+        { title: 'వ్యాపార మార్గదర్శనం', desc: 'ఉద్యమ్ MSME నమోదు, GST ప్రాథమికాలు & కార్యకలాపాలు', target: 'ask', prompt: 'చిన్న వ్యాపారవేత్తలు MSME ఉద్యమ్ మరియు GST కోసం ఎలా నమోదు చేసుకోవాలి?' },
+        { title: 'ధర & లాభాల సహాయకుడు', desc: 'యూనిట్ ధర & ఖర్చు వివరాల కోసం AI సహాయం తీసుకోండి', target: 'ask', prompt: 'నా దుకాణం కోసం రిటైల్ ధర మరియు లాభ మార్జిన్ లెక్కించడంలో సహాయం చేయండి.' },
+        { title: 'ప్రభుత్వ మద్దతు', desc: 'పీఎం ముద్రా రుణాలు & క్రెడిట్ గ్యారెంటీ అర్హత', target: 'eligibility' },
+        { title: 'పత్రం & ఇన్‌వాయిస్ రీడర్', desc: 'వ్యాపార PDFల నుండి సమాచారం పొందండి & ప్రశ్నలు అడగండి', target: 'document' },
+      ],
+      Artisan: [
+        { title: 'ఉత్పత్తి మార్గదర్శనం', desc: 'కేటలాగ్ & నాణ్యత చిట్కాల కోసం హస్తకళ ఫోటోలను విశ్లేషించండి', target: 'image' },
+        { title: 'మార్కెట్ సమాచారం', desc: 'హస్తకళ మేళాలు, GI ట్యాగ్‌లు & ధరల గురించి AI ని అడగండి', target: 'ask', prompt: 'సాంప్రదాయ కళాకారులు తమ ఉత్పత్తులను ఆన్‌లైన్‌లో ఎలా విక్రయించగలరు?' },
+        { title: 'మద్దతు పథకాలు', desc: 'పీఎం విశ్వకర్మ రూ. 15,000 టూల్‌కిట్ & 5% రుణం', target: 'schemes' },
+        { title: 'స్థానిక కళా కేంద్రాలు', desc: 'సమీప కళాకారుల సహాయ కేంద్రాలను కనుగొనండి', target: 'local-info' },
+      ],
+      'Street Vendor': [
+        { title: 'PM SVANidhi రుణ సమాచారం', desc: 'రూ. 10,000 నుండి వర్కింగ్ క్యాపిటల్ రుణం', target: 'schemes' },
+        { title: 'వాయిస్ అసిస్టెంట్', desc: 'మీ భాషలో చేతులు లేకుండా ప్రశ్నలు అడగండి', target: 'voice' },
+      ],
+      'General Citizen': [
+        { title: 'పథకం అర్హత తనిఖీ', desc: 'మీ ప్రొఫైల్‌కు సరిపోయే సంక్షేమ పథకాలను కనుగొనండి', target: 'eligibility' },
+        { title: 'నమ్మకమైన ప్రజా పోర్టల్‌లు', desc: 'అధికారిక లింక్‌లు & ధృవీకరించిన తేదీలు', target: 'trusted-sources' },
+      ],
+    },
+    schemes: {
+      'pm-kisan': {
+        name: 'పీఎం-కిసాన్ సమ్మాన్ నిధి',
+        ministry: 'వ్యవసాయ & రైతు సంక్షేమ మంత్రిత్వ శాఖ',
+        benefit: 'సంవత్సరానికి రూ. 6,000 (3 వాయిదాలలో)',
+        documents: ['ఆధార్ కార్డు', 'భూమి రికార్డు (RoR)', 'బ్యాంక్ పాస్‌బుక్', 'మొబైల్ నంబర్'],
+      },
+      pmfby: {
+        name: 'ప్రధాన మంత్రి ఫసల్ బీమా యోజన',
+        ministry: 'వ్యవసాయ & రైతు సంక్షేమ మంత్రిత్వ శాఖ',
+        benefit: '1.5%–2% రైతు ప్రీమియంతో పంట నష్ట బీమా',
+        documents: ['ఆధార్ కార్డు', 'విత్తన ధృవీకరణ పత్రం', 'భూమి/కౌలు పత్రాలు', 'బ్యాంక్ ఖాతా'],
+      },
+      pmmsy: {
+        name: 'ప్రధాన మంత్రి మత్స్య సంపద యోజన',
+        ministry: 'మత్స్య శాఖ',
+        benefit: 'బోట్లు, భద్రతా కిట్లు & కోల్డ్ స్టోరేజ్‌కు 40%–60% సబ్సిడీ',
+        documents: ['మత్స్యకారుడి ఐడీ కార్డు', 'ఆధార్ కార్డు', 'బ్యాంక్ వివరాలు', 'ప్రాజెక్ట్ ప్రతిపాదన'],
+      },
+      'nsp-scholarship': {
+        name: 'నేషనల్ స్కాలర్‌షిప్ పోర్టల్ (పోస్ట్-మెట్రిక్)',
+        ministry: 'విద్యా మంత్రిత్వ శాఖ',
+        benefit: 'కోర్సు ఆధారంగా ట్యూషన్ & నిర్వహణ భత్యం',
+        documents: ['బోనఫైడ్ సర్టిఫికెట్', 'ఆదాయ ధృవీకరణ పత్రం', 'గత మార్కుల జాబితా', 'ఆధార్'],
+      },
+      'pm-mudra': {
+        name: 'పీఎం ముద్రా యోజన (శిశు / కిశోర్ / తరుణ్)',
+        ministry: 'ఆర్థిక మంత్రిత్వ శాఖ',
+        benefit: 'రూ. 10 లక్షల వరకు పూచీకత్తు లేని వ్యాపార రుణాలు',
+        documents: ['ఆధార్ & పాన్', 'వ్యాపార ప్రణాళిక / దుకాణ రుజువు', 'బ్యాంక్ స్టేట్‌మెంట్'],
+      },
+      'pm-vishwakarma': {
+        name: 'పీఎం విశ్వకర్మ కళాకారుల పథకం',
+        ministry: 'MSME మంత్రిత్వ శాఖ',
+        benefit: 'రూ. 15,000 టూల్‌కిట్ ప్రోత్సాహకం + 5% వడ్డీ రుణం + శిక్షణ భత్యం',
+        documents: ['ఆధార్ కార్డు', 'వృత్తి రుజువు', 'బ్యాంక్ పాస్‌బుక్', 'రేషన్ కార్డు'],
+      },
+    },
+    helplines: [
+      { name: 'జాతీయ అత్యవసర నంబర్', number: '112', desc: 'పోలీస్, ఫైర్ & అంబులెన్స్ అన్నీ ఒకే నంబర్‌లో' },
+      { name: 'విపత్తు నిర్వహణ (NDMA)', number: '1078', desc: 'వరదలు, తుఫాను & భూకంప సహాయం' },
+      { name: 'అంబులెన్స్ / వైద్య అత్యవసరం', number: '108', desc: '24x7 అత్యవసర వైద్య రవాణా' },
+      { name: 'కిసాన్ కాల్ సెంటర్', number: '1800-180-1551', desc: 'ఉచిత వ్యవసాయ & పంట హెల్ప్‌లైన్' },
+      { name: 'అగ్నిమాపక & రక్షణ', number: '101', desc: 'తక్షణ అగ్నిమాపక సహాయం' },
+      { name: 'మహిళా & శిశు హెల్ప్‌లైన్', number: '181 / 1098', desc: '24x7 భద్రత మరియు రక్షణ మద్దతు' },
+    ],
+    localServices: [
+      { name: 'కృషి విజ్ఞాన కేంద్రం (KVK), గరికపాడు', type: 'వ్యవసాయ కార్యాలయం', distance: '14 కి.మీ (డెమో)', hours: 'ఉదయం 9:30 – సాయంత్రం 5:00' },
+      { name: 'కామన్ సర్వీస్ సెంటర్ (CSC) – బెంజ్ సర్కిల్', type: 'పౌర ఇ-సేవలు', distance: '2.1 కి.మీ (డెమో)', hours: 'ఉదయం 9:00 – రాత్రి 7:00' },
+      { name: 'రైతు భరోసా కేంద్రం (RBK) – పటమట', type: 'విత్తన & నేల పరీక్ష', distance: '3.4 కి.మీ (డెమో)', hours: 'ఉదయం 9:00 – సాయంత్రం 5:00' },
+      { name: 'జిల్లా మత్స్య కార్యాలయం – మచిలీపట్నం రోడ్', type: 'మత్స్య మద్దతు', distance: '4.8 కి.మీ (డెమో)', hours: 'ఉదయం 10:00 – సాయంత్రం 5:00' },
+      { name: 'ప్రభుత్వ జనరల్ ఆసుపత్రి', type: '24x7 ఆరోగ్య సేవ', distance: '3.9 కి.మీ (డెమో)', hours: '24 గంటలు తెరిచి ఉంటుంది' },
+    ],
+    mandiItems: [
+      { commodity: 'వరి (సాధారణ)', mandi: 'విజయవాడ', price: 'రూ. 2,300 / క్వింటాల్', change: '+1.8%' },
+      { commodity: 'ఎండు మిర్చి (తేజ)', mandi: 'గుంటూరు', price: 'రూ. 16,400 / క్వింటాల్', change: '+2.4%' },
+      { commodity: 'పత్తి (మధ్యస్థం)', mandi: 'ఆదిలాబాద్', price: 'రూ. 7,120 / క్వింటాల్', change: '-0.6%' },
+      { commodity: 'పసుపు (వేలి)', mandi: 'దుగ్గిరాల', price: 'రూ. 13,800 / క్వింటాల్', change: '+3.1%' },
+      { commodity: 'రోహు చేప (తాజా)', mandi: 'మచిలీపట్నం', price: 'రూ. 145 / కిలో', change: '+1.2%' },
+    ],
+    historyLabels: {
+      'hist-1': { question: 'పీఎం కిసాన్ పథకం గురించి అడిగారు', time: '2 గంటల క్రితం' },
+      'hist-2': { question: 'విజయవాడ వాతావరణ అప్‌డేట్లు చూశారు', time: '3 గంటల క్రితం' },
+      'hist-3': { question: 'పంట వ్యాధి సమాచారం సేవ్ చేశారు', time: '1 రోజు క్రితం' },
+    },
+    notificationLabels: {
+      'notif-1': { title: 'వాతావరణ హెచ్చరిక: భారీ వర్షం అవకాశం', detail: 'డెమో అలర్ట్: రాబోయే 48 గంటల్లో తీర ఆంధ్ర జిల్లాల్లో తేలికపాటి నుండి మోస్తరు వర్షం అవకాశం.', time: '1గం క్రితం' },
+      'notif-2': { title: 'కొత్త ప్రభుత్వ పథకం ప్రారంభం', detail: 'డెమో అప్‌డేట్: విజయవాడ బ్లాక్ కోసం పీఎం విశ్వకర్మ & పీఎం-కిసాన్ e-KYC శిబిరం తేదీలు అప్‌డేట్ చేయబడ్డాయి.', time: '3గం క్రితం' },
+      'notif-3': { title: 'మీ సహాయ అభ్యర్థన పరిష్కరించబడింది', detail: 'PDF పత్రం అప్‌లోడ్‌కు సంబంధించిన టికెట్ #SR-4021 పరిష్కరించబడింది.', time: '1రో క్రితం' },
+    },
+  },
+  Hindi: {
+    weekDays: { Mon: 'सोम', Tue: 'मंगल', Wed: 'बुध', Thu: 'गुरु', Fri: 'शुक्र' },
+    weatherConditions: {
+      'Partly Cloudy': 'आंशिक रूप से बादल',
+      'Sunny & Clear': 'धूप और साफ़ मौसम',
+      'Coastal Breeze': 'तटीय हवा',
+      'Light Clouds': 'हल्के बादल',
+      Sunny: 'धूप',
+      Warm: 'गर्म',
+      'Light Rain': 'हल्की बारिश',
+    },
+    professionTools: {
+      Farmer: [
+        { title: 'फसल मार्गदर्शन', desc: 'मौसमी बुवाई, सिंचाई और किस्म की सिफारिशें', target: 'ask', prompt: 'धान और दालों के लिए मौसमी फसल मार्गदर्शन दें।' },
+        { title: 'फसल रोग जानकारी', desc: 'धब्बों या कीटों की जांच के लिए पत्ते की फोटो अपलोड करें', target: 'image' },
+        { title: 'उर्वरक मार्गदर्शन', desc: 'संतुलित NPK पोषक अनुसूची और मिट्टी स्वास्थ्य सुझाव', target: 'ask', prompt: 'धान के लिए अनुशंसित NPK उर्वरक अनुसूची क्या है?' },
+        { title: 'मौसम और मंडी जानकारी', desc: '5-दिवसीय पूर्वानुमान और क्षेत्रीय मंडी भाव अपडेट', target: 'weather-market' },
+      ],
+      Fisherman: [
+        { title: 'समुद्री मौसम', desc: 'तटीय हवा, बारिश और समुद्री स्थिति अलर्ट देखें', target: 'weather-market' },
+        { title: 'मछली पकड़ने की सुरक्षा', desc: 'तटरक्षक और आपदा आपातकालीन हेल्पलाइन (112 / 1078)', target: 'emergency' },
+        { title: 'मत्स्य जानकारी', desc: 'PMMSY नाव, आइस बॉक्स और कोल्ड-चेन सब्सिडी', target: 'schemes' },
+        { title: 'जलीय कृषि सलाह', desc: 'तालाब स्वास्थ्य, चारा और भंडारण के बारे में AI से पूछें', target: 'ask', prompt: 'मछुआरे पीएम मत्स्य संपदा योजना के लिए आवेदन कैसे करें?' },
+      ],
+      Student: [
+        { title: 'शिक्षा सहायता', desc: 'करियर रोडमैप, परीक्षा तैयारी और कौशल कार्यक्रम', target: 'ask', prompt: 'कॉलेज छात्रों के लिए एक संरचित अध्ययन योजना और करियर रोडमैप बनाएं।' },
+        { title: 'छात्रवृत्तियां', desc: 'NSP और पोस्ट-मैट्रिक छात्रवृत्ति पात्रता देखें', target: 'schemes' },
+        { title: 'अध्ययन सहायता (PDF)', desc: 'सारांश और प्रश्न पूछने के लिए पाठ्यपुस्तक PDF अपलोड करें', target: 'document' },
+        { title: 'बहुभाषी अध्ययन सहायक', desc: 'अध्ययन अवधारणाओं का तेलुगु, हिंदी आदि में अनुवाद करें', target: 'language' },
+      ],
+      'Business Owner': [
+        { title: 'व्यवसाय मार्गदर्शन', desc: 'उद्यम MSME पंजीकरण, GST मूल बातें और संचालन', target: 'ask', prompt: 'छोटे व्यवसाय के मालिक MSME उद्यम और GST के लिए पंजीकरण कैसे करें?' },
+        { title: 'मूल्य निर्धारण और मार्जिन सहायक', desc: 'यूनिट मूल्य और लागत विवरण के लिए AI से पूछें', target: 'ask', prompt: 'मेरी दुकान के लिए खुदरा मूल्य और लाभ मार्जिन की गणना करने में मदद करें।' },
+        { title: 'सरकारी सहायता', desc: 'पीएम मुद्रा ऋण और क्रेडिट गारंटी पात्रता', target: 'eligibility' },
+        { title: 'दस्तावेज़ और चालान रीडर', desc: 'व्यावसायिक PDF से जानकारी निकालें और प्रश्न पूछें', target: 'document' },
+      ],
+      Artisan: [
+        { title: 'उत्पाद मार्गदर्शन', desc: 'कैटलॉग और गुणवत्ता सुझावों के लिए शिल्प फोटो का विश्लेषण करें', target: 'image' },
+        { title: 'बाजार जानकारी', desc: 'हस्तशिल्प मेलों, GI टैग और मूल्य निर्धारण के बारे में पूछें', target: 'ask', prompt: 'पारंपरिक कारीगर अपने उत्पादों को ऑनलाइन कैसे बेच और कीमत तय कर सकते हैं?' },
+        { title: 'सहायता योजनाएं', desc: 'पीएम विश्वकर्मा 15,000 रु. टूलकिट और 5% ऋण', target: 'schemes' },
+        { title: 'स्थानीय शिल्प केंद्र', desc: 'निकटतम कारीगर सुविधा केंद्र खोजें', target: 'local-info' },
+      ],
+      'Street Vendor': [
+        { title: 'PM SVANidhi ऋण जानकारी', desc: '10,000 रु. से शुरू कार्यशील पूंजी ऋण', target: 'schemes' },
+        { title: 'वॉयस असिस्टेंट', desc: 'अपनी भाषा में हैंड्स-फ्री प्रश्न पूछें', target: 'voice' },
+      ],
+      'General Citizen': [
+        { title: 'योजना पात्रता जांच', desc: 'अपनी प्रोफ़ाइल से मेल खाने वाली कल्याणकारी योजनाएं खोजें', target: 'eligibility' },
+        { title: 'विश्वसनीय जन पोर्टल', desc: 'आधिकारिक लिंक और सत्यापित अपडेट तिथियां', target: 'trusted-sources' },
+      ],
+    },
+    schemes: {
+      'pm-kisan': {
+        name: 'पीएम-किसान सम्मान निधि',
+        ministry: 'कृषि एवं किसान कल्याण मंत्रालय',
+        benefit: '3 किस्तों में 6,000 रु. / वर्ष',
+        documents: ['आधार कार्ड', 'भूमि रिकॉर्ड (RoR)', 'बैंक पासबुक', 'मोबाइल नंबर'],
+      },
+      pmfby: {
+        name: 'प्रधानमंत्री फसल बीमा योजना',
+        ministry: 'कृषि एवं किसान कल्याण मंत्रालय',
+        benefit: '1.5%–2% किसान प्रीमियम पर फसल नुकसान बीमा',
+        documents: ['आधार कार्ड', 'बुवाई प्रमाणपत्र', 'भूमि/पट्टा कागजात', 'बैंक खाता'],
+      },
+      pmmsy: {
+        name: 'प्रधानमंत्री मत्स्य संपदा योजना',
+        ministry: 'मत्स्य पालन विभाग',
+        benefit: 'नाव, सुरक्षा किट और कोल्ड स्टोरेज पर 40%–60% सब्सिडी',
+        documents: ['मछुआरा पहचान पत्र', 'आधार कार्ड', 'बैंक विवरण', 'परियोजना प्रस्ताव'],
+      },
+      'nsp-scholarship': {
+        name: 'नेशनल स्कॉलरशिप पोर्टल (पोस्ट-मैट्रिक)',
+        ministry: 'शिक्षा मंत्रालय',
+        benefit: 'पाठ्यक्रम के अनुसार ट्यूशन और रखरखाव भत्ता',
+        documents: ['बोनाफाइड प्रमाणपत्र', 'आय प्रमाणपत्र', 'पिछली अंकतालिका', 'आधार'],
+      },
+      'pm-mudra': {
+        name: 'पीएम मुद्रा योजना (शिशु / किशोर / तरुण)',
+        ministry: 'वित्त मंत्रालय',
+        benefit: '10 लाख रु. तक बिना गारंटी व्यावसायिक ऋण',
+        documents: ['आधार और पैन', 'व्यवसाय योजना / दुकान प्रमाण', 'बैंक स्टेटमेंट'],
+      },
+      'pm-vishwakarma': {
+        name: 'पीएम विश्वकर्मा कारीगर योजना',
+        ministry: 'MSME मंत्रालय',
+        benefit: '15,000 रु. टूलकिट प्रोत्साहन + 5% ऋण + कौशल भत्ता',
+        documents: ['आधार कार्ड', 'कारीगर व्यापार प्रमाण', 'बैंक पासबुक', 'राशन कार्ड'],
+      },
+    },
+    helplines: [
+      { name: 'राष्ट्रीय आपातकालीन नंबर', number: '112', desc: 'पुलिस, फायर और एम्बुलेंस सभी एक नंबर पर' },
+      { name: 'आपदा प्रबंधन (NDMA)', number: '1078', desc: 'बाढ़, चक्रवात और भूकंप सहायता' },
+      { name: 'एम्बुलेंस / चिकित्सा आपातकाल', number: '108', desc: '24x7 आपातकालीन चिकित्सा परिवहन' },
+      { name: 'किसान कॉल सेंटर', number: '1800-180-1551', desc: 'निःशुल्क कृषि और फसल हेल्पलाइन' },
+      { name: 'अग्निशमन और बचाव', number: '101', desc: 'तत्काल अग्निशमन सहायता' },
+      { name: 'महिला और बाल हेल्पलाइन', number: '181 / 1098', desc: '24x7 सुरक्षा और संरक्षण सहायता' },
+    ],
+    localServices: [
+      { name: 'कृषि विज्ञान केंद्र (KVK), गरिकपाडु', type: 'कृषि कार्यालय', distance: '14 किमी (डेमो)', hours: 'सुबह 9:30 – शाम 5:00' },
+      { name: 'कॉमन सर्विस सेंटर (CSC) – बेंज सर्कल', type: 'नागरिक ई-सेवाएं', distance: '2.1 किमी (डेमो)', hours: 'सुबह 9:00 – शाम 7:00' },
+      { name: 'रैतु भरोसा केंद्र (RBK) – पटमटा', type: 'बीज और मिट्टी जांच', distance: '3.4 किमी (डेमो)', hours: 'सुबह 9:00 – शाम 5:00' },
+      { name: 'जिला मत्स्य कार्यालय – मछलीपट्टनम रोड', type: 'मत्स्य सहायता', distance: '4.8 किमी (डेमो)', hours: 'सुबह 10:00 – शाम 5:00' },
+      { name: 'सरकारी जनरल अस्पताल', type: '24x7 स्वास्थ्य सेवा', distance: '3.9 किमी (डेमो)', hours: '24 घंटे खुला' },
+    ],
+    mandiItems: [
+      { commodity: 'धान (सामान्य)', mandi: 'विजयवाड़ा', price: '2,300 रु. / क्विंटल', change: '+1.8%' },
+      { commodity: 'सूखी मिर्च (तेजा)', mandi: 'गुंटूर', price: '16,400 रु. / क्विंटल', change: '+2.4%' },
+      { commodity: 'कपास (मध्यम)', mandi: 'आदिलाबाद', price: '7,120 रु. / क्विंटल', change: '-0.6%' },
+      { commodity: 'हल्दी (फिंगर)', mandi: 'दुग्गिराला', price: '13,800 रु. / क्विंटल', change: '+3.1%' },
+      { commodity: 'रोहू मछली (ताजा)', mandi: 'मछलीपट्टनम', price: '145 रु. / किग्रा', change: '+1.2%' },
+    ],
+    historyLabels: {
+      'hist-1': { question: 'पीएम किसान योजना के बारे में पूछा', time: '2 घंटे पहले' },
+      'hist-2': { question: 'विजयवाड़ा का मौसम अपडेट देखा', time: '3 घंटे पहले' },
+      'hist-3': { question: 'फसल रोग की जानकारी सहेजी', time: '1 दिन पहले' },
+    },
+    notificationLabels: {
+      'notif-1': { title: 'मौसम चेतावनी: भारी बारिश की संभावना', detail: 'डेमो अलर्ट: अगले 48 घंटों में तटीय आंध्र जिलों में हल्की से मध्यम बारिश का अनुमान।', time: '1घं पहले' },
+      'notif-2': { title: 'नई सरकारी योजना शुरू हुई', detail: 'डेमो अपडेट: विजयवाड़ा ब्लॉक के लिए पीएम विश्वकर्मा और पीएम-किसान e-KYC शिविर की तिथियां अपडेट की गईं।', time: '3घं पहले' },
+      'notif-3': { title: 'आपका सहायता अनुरोध हल हो गया है', detail: 'PDF दस्तावेज़ अपलोड से संबंधित टिकट #SR-4021 हल कर दिया गया है।', time: '1दि पहले' },
+    },
+  },
+};
+
+export function getDemoCards(language) {
+  return DEMO_CARDS[language] || DEMO_CARDS.English;
+}
+

@@ -1,0 +1,509 @@
+{
+  "brand": {
+    "name": "Sahayak AI",
+    "subtitle": "AI Assistance for Every Profession",
+    "tagline": "One AI. Multiple Professions. Every Language.",
+    "footer": "Sahayak AI — One AI. Multiple Professions. Every Language. • Informational AI guidance only; verify official schemes & emergencies on government portals."
+  },
+  "common": {
+    "home": "Home",
+    "viewAll": "View All",
+    "browseAll": "Browse All",
+    "open": "Open",
+    "try": "Try",
+    "send": "Send",
+    "ask": "Ask",
+    "asking": "Asking...",
+    "copy": "Copy",
+    "copied": "Copied",
+    "saveAnswer": "Save Answer",
+    "saved": "Saved",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "confirm": "Confirm Action",
+    "confirmMessage": "Are you sure you want to proceed?",
+    "loading": "Loading...",
+    "demoData": "Demo Data",
+    "demoForecast": "Demo Forecast",
+    "markRead": "Mark Read",
+    "addReminder": "Add Reminder",
+    "processing": "Processing...",
+    "analyzing": "Analyzing...",
+    "submit": "Submit",
+    "saveChanges": "Save Changes",
+    "search": "Search"
+  },
+  "groups": {
+    "MAIN": "MAIN",
+    "AI ASSISTANCE": "AI ASSISTANCE",
+    "PROFESSION & SERVICES": "PROFESSION & SERVICES",
+    "MY ACTIVITY": "MY ACTIVITY",
+    "TRUST & PERSONALIZATION": "TRUST & PERSONALIZATION",
+    "SUPPORT": "SUPPORT",
+    "ACCOUNT": "ACCOUNT"
+  },
+  "nav": {
+    "home": "Home",
+    "ask": "Ask Sahayak AI",
+    "voice": "Voice Assistant",
+    "image": "Image Assistant",
+    "document": "Document Assistant",
+    "language": "Language & Translation",
+    "my-profession": "My Profession",
+    "profession-services": "Profession-Based Services",
+    "schemes": "Government Schemes",
+    "eligibility": "Scheme Eligibility Assistant",
+    "local-info": "Local Information",
+    "weather-market": "Weather & Market Updates",
+    "emergency": "Emergency & Disaster Assistance",
+    "saved": "Saved Answers",
+    "history": "Conversation History",
+    "my-documents": "My Documents",
+    "notifications": "Notifications & Reminders",
+    "trusted-sources": "Trusted Information Sources",
+    "recommendations": "Personalized Recommendations",
+    "expert-support": "Expert Support",
+    "support-requests": "My Support Requests",
+    "feedback": "Feedback & Report an Issue",
+    "accessibility": "Accessibility Settings",
+    "profile": "My Profile & Settings"
+  },
+  "topNav": {
+    "searchPlaceholder": "Search anything... (e.g. crop disease, scholarship)",
+    "openPage": "Open {{label}}",
+    "askAiQuery": "Ask Sahayak AI: \"{{query}}\"",
+    "notifications": "Notifications",
+    "profileSettings": "My Profile & Settings",
+    "accessibilitySettings": "Accessibility Settings",
+    "signInRegister": "Sign In / Register (JWT)",
+    "signOut": "Sign Out"
+  },
+  "auth": {
+    "continueToSignIn": "Continue to Sign In",
+    "signInTitle": "Sign In to Sahayak AI",
+    "createAccountTitle": "Create Your Account",
+    "subtitle": "Enter your email & password to personalize your AI dashboard",
+    "jwtSubtitle": "Secured with JWT authentication",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Enter your name",
+    "email": "Email Address",
+    "emailPlaceholder": "name@example.com",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "greetPreview": "Will greet you as: {{name}}",
+    "signInButton": "Sign In & Continue",
+    "createButton": "Create Account",
+    "signingIn": "Signing in...",
+    "pleaseWait": "Please wait...",
+    "wantCustomName": "Want to enter a custom name?",
+    "alreadyAccount": "Already have an account?",
+    "newToSahayak": "New to Sahayak AI?",
+    "register": "Register",
+    "signIn": "Sign In",
+    "invalidEmail": "Please enter a valid email address.",
+    "invalidPassword": "Please enter a password (at least 4 characters)."
+  },
+  "home": {
+    "hello": "Hello",
+    "heroSubtitle": "Your smart AI assistant for a better tomorrow.",
+    "empowering1": "Empowering",
+    "empowering2": "Every Citizen",
+    "askPlaceholder": "Ask Sahayak AI anything...",
+    "pmKisanChip": "PM Kisan Scheme",
+    "cropDiseaseChip": "Crop Disease",
+    "weatherChip": "Weather Today",
+    "educationChip": "Education Schemes",
+    "quickChatTitle": "Chat",
+    "quickChatSub": "with AI",
+    "quickVoiceTitle": "Voice",
+    "quickImageTitle": "Image",
+    "quickDocTitle": "Document",
+    "quickAssistantSub": "Assistant",
+    "quickProfessionTitle": "My Profession",
+    "profServicesTitle": "Profession-Based Services",
+    "profServicesSub": "Get personalized assistance for your profession",
+    "govtSchemesTitle": "Government Schemes",
+    "govtSchemesSub": "Find and check your eligibility",
+    "checkEligibility": "Check Eligibility",
+    "recentActivity": "Recent Activity",
+    "notifications": "Notifications",
+    "partlyCloudy": "Partly Cloudy",
+    "sunny": "Sunny",
+    "warm": "Warm",
+    "lightRain": "Light Rain"
+  },
+  "professions": {
+    "Farmer": {
+      "name": "Farmer",
+      "sub": "Crop Guidance",
+      "desc": "Crop guidance, crop disease information, fertilizer guidance, weather and mandi market updates."
+    },
+    "Fisherman": {
+      "name": "Fisherman",
+      "sub": "Marine Info",
+      "desc": "Marine weather alerts, fishing safety checklists, and PMMSY fisheries support."
+    },
+    "Student": {
+      "name": "Student",
+      "sub": "Study & Career",
+      "desc": "Education assistance, scholarships on NSP, and AI-powered learning support."
+    },
+    "Business Owner": {
+      "name": "Business Owner",
+      "sub": "Business Support",
+      "desc": "Business guidance, pricing strategies, and government MSME / Mudra support."
+    },
+    "Artisan": {
+      "name": "Artisan",
+      "sub": "Product Support",
+      "desc": "Product guidance, market information, and PM Vishwakarma support schemes."
+    },
+    "Street Vendor": {
+      "name": "Street Vendor",
+      "sub": "Micro-Credit & Licensing",
+      "desc": "PM SVANidhi working capital loans, digital UPI onboarding, and municipal vending info."
+    },
+    "General Citizen": {
+      "name": "General Citizen",
+      "sub": "Public Services",
+      "desc": "Everyday citizen services, Aadhaar/ration updates, healthcare, and emergency support."
+    },
+    "Teacher": {
+      "name": "Teacher",
+      "subtitle": "Teaching & Lesson Support",
+      "desc": "Lesson planning, bilingual worksheets, quiz generation, and educational resources."
+    },
+    "Healthcare": {
+      "name": "Healthcare",
+      "subtitle": "Health Info & Documentation",
+      "desc": "Healthcare information, multilingual patient communication, and public health scheme references."
+    },
+    "Government Employee": {
+      "name": "Government Employee",
+      "subtitle": "Public Services & Admin",
+      "desc": "Government services, circular summaries, welfare scheme references, and administrative drafting."
+    },
+    "Skilled Worker": {
+      "name": "Skilled Worker",
+      "subtitle": "Skills & Job Support",
+      "desc": "Technical troubleshooting, safety tips, PM Vishwakarma toolkit benefits, and job opportunities."
+    },
+    "Professional": {
+      "name": "Professional",
+      "subtitle": "Work & Productivity",
+      "desc": "Productivity workflows, research summaries, document analysis, and career assistance."
+    }
+  },
+  "ask": {
+    "title": "Ask Sahayak AI",
+    "subtitle": "Multilingual AI Assistant • Active Profile: {{profession}} ({{language}})",
+    "badge": "RAG + Gemini Ready",
+    "welcome": "### Welcome to Sahayak AI ({{profession}} • {{language}})\n\nAsk me anything about government schemes, crop or marine guidance, study resources, documents, or local services. I will organize answers into clear steps with source references.",
+    "thinking": "Sahayak AI is thinking...",
+    "placeholder": "Ask Sahayak AI in {{language}}...",
+    "newChat": "New Chat",
+    "searchChats": "Search chats...",
+    "recentChats": "Recent Chats",
+    "noChats": "No conversations yet",
+    "rename": "Rename",
+    "regenerate": "Regenerate",
+    "archive": "Archive",
+    "unarchive": "Unarchive",
+    "archived": "Archived",
+    "active": "Active",
+    "suggestions": [
+      "Explain PM Kisan Scheme eligibility and documents",
+      "How to manage paddy leaf spots safely?",
+      "What scholarships are on National Scholarship Portal?",
+      "How do artisans apply for PM Vishwakarma?"
+    ]
+  },
+  "voice": {
+    "title": "Voice Assistant",
+    "subtitle": "Speak naturally in {{language}} • Speech-to-Text & Text-to-Speech",
+    "badge": "Privacy-First Mic",
+    "micNotice": "Microphone is only accessed when you click Speak",
+    "tapToSpeak": "Tap Microphone to Speak",
+    "listening": "Listening... Tap to stop",
+    "micDenied": "Microphone permission was denied. You can still type or test sample voice prompts below.",
+    "sampleQueries": "Sample Voice Queries",
+    "samples": [
+      "Tell me about PM Kisan Scheme in simple words.",
+      "What documents are required for student scholarships?",
+      "Give me emergency helpline numbers for cyclones."
+    ],
+    "transcriptLabel": "Recognized Speech / Transcript",
+    "transcriptPlaceholder": "Your spoken words will appear here, or type to test...",
+    "askButton": "Ask Sahayak AI",
+    "responseLabel": "AI Voice Response",
+    "readAloud": "Read Aloud",
+    "speaking": "Speaking...",
+    "emptyResponse": "Your AI response will appear here with Read Aloud support."
+  },
+  "imageAssistant": {
+    "title": "Image Assistant",
+    "subtitle": "Upload crop leaf photos, receipts, or documents for AI visual analysis",
+    "badge": "Gemini Vision Ready",
+    "uploadTitle": "Click to upload an image",
+    "uploadSubtitle": "PNG, JPG, or WEBP up to 10 MB",
+    "promptLabel": "What would you like Sahayak AI to check?",
+    "defaultPrompt": "Analyze this image for crop health, document details, or helpful guidance.",
+    "analyzeButton": "Analyze Image",
+    "analyzingButton": "Analyzing Image...",
+    "resultsTitle": "Analysis Results",
+    "emptyTitle": "No image analyzed yet",
+    "emptyDesc": "Upload a crop photo, form, or product image on the left to inspect it."
+  },
+  "documentAssistant": {
+    "title": "Document Assistant",
+    "subtitle": "Upload PDFs or text files — powered by PyMuPDF extraction & RAG Q&A",
+    "badge": "PyMuPDF + Vector RAG",
+    "uploadTitle": "Upload PDF or Text Document",
+    "uploadLoading": "Extracting & Indexing PDF...",
+    "uploadSubtitle": "Supports PDF, TXT, CSV up to 15 MB",
+    "indexedDocs": "Indexed Documents",
+    "extractedPreview": "Extracted Preview",
+    "askPlaceholder": "Ask a question or request a summary of this document...",
+    "emptyText": "Upload or select a document to summarize and ask questions"
+  },
+  "languagePage": {
+    "title": "Language & Translation",
+    "subtitle": "Switch your dashboard AI language or translate citizen guidance into regional languages",
+    "preferredTitle": "Preferred Sahayak AI Response Language",
+    "translatorTitle": "Multilingual Citizen Translator",
+    "translateTo": "Translate to:",
+    "inputPlaceholder": "Enter text or question to translate...",
+    "outputPlaceholder": "Translated output will appear here...",
+    "translateButton": "Translate to {{lang}}",
+    "translating": "Translating...",
+    "phrases": [
+      "How do I check my PM-KISAN installment status?",
+      "Where is the nearest Krishi Vigyan Kendra?",
+      "What documents are required for a student scholarship?"
+    ]
+  },
+  "myProfession": {
+    "title": "My Profession",
+    "subtitle": "Select your primary profession so Sahayak AI tailors schemes, weather, and answers for you",
+    "current": "Current: {{prof}}",
+    "selected": "Selected",
+    "openServices": "Open {{prof}} Services"
+  },
+  "profServices": {
+    "title": "Profession-Based Services",
+    "subtitle": "Tailored AI tools, schemes, and workflows for {{prof}}"
+  },
+  "schemes": {
+    "title": "Government Schemes",
+    "subtitle": "Explore verified public welfare schemes, required documents, and official portals",
+    "badge": "Demo Reference Directory",
+    "searchPlaceholder": "Search schemes (e.g. PM Kisan, Scholarship, Mudra)...",
+    "allProfessions": "All Professions",
+    "checkEligibility": "Check Eligibility",
+    "benefit": "Benefit:",
+    "requiredDocs": "Required Documents",
+    "officialPortal": "Official Portal",
+    "askSteps": "Ask AI Steps"
+  },
+  "eligibility": {
+    "title": "Scheme Eligibility Assistant",
+    "subtitle": "Answer a few quick questions to check likely scheme eligibility (Demo Checker)",
+    "badge": "Instant Demo Check",
+    "professionLabel": "Profession",
+    "incomeLabel": "Annual Family Income (Rs.)",
+    "ownsLand": "Own cultivable agricultural land",
+    "hasAadhaar": "Have Aadhaar linked to bank account",
+    "checkButton": "Check My Eligibility",
+    "likelyEligible": "Likely Eligible",
+    "notMatched": "Not Matched",
+    "emptyPrompt": "Fill in your details on the left and click Check My Eligibility."
+  },
+  "localInfo": {
+    "title": "Local Information",
+    "subtitle": "Public service centers, KVKs, CSCs, and hospitals near {{city}}",
+    "badge": "Demo Directory",
+    "locationTitle": "Location Access (Optional)",
+    "locationPrompt": "We ask your permission before reading device location. Currently showing Vijayawada demo data.",
+    "locationGranted": "Using your browser location ({{lat}}, {{lon}}) alongside demo directory.",
+    "useLocation": "Use My Location",
+    "locationEnabled": "Location Enabled",
+    "hours": "Hours:"
+  },
+  "weatherMarket": {
+    "title": "Weather & Market Updates",
+    "subtitle": "Regional forecast and agricultural/fisheries mandi price reference",
+    "badge": "Clearly Labeled Demo Data",
+    "mandiTitle": "Mandi Price Reference",
+    "mandiNote": "Demo Snapshot • Verify on enam.gov.in",
+    "humidity": "Humidity",
+    "wind": "Wind"
+  },
+  "emergency": {
+    "title": "Emergency & Disaster Assistance",
+    "subtitle": "Verified Indian national emergency helplines and disaster preparedness checklists",
+    "badge": "Always Call 112 in Emergencies",
+    "call": "Call {{number}}",
+    "checklistTitle": "Cyclone & Heavy Rain Safety Checklist (NDMA Reference)",
+    "checklist": [
+      "Keep an emergency kit with drinking water, torch, medicines, and power bank.",
+      "Store important documents (Aadhaar, land records, passbook) in a waterproof pouch.",
+      "Fishermen should strictly follow IMD & Coast Guard sea-condition warnings before venturing out.",
+      "Stay away from fallen electric poles and flooded roads; follow official District Collector advisories."
+    ]
+  },
+  "savedAnswers": {
+    "title": "Saved Answers",
+    "subtitle": "Access useful AI answers and scheme guides you bookmarked",
+    "badge": "{{count}} Saved",
+    "filterPlaceholder": "Filter saved answers...",
+    "emptyTitle": "No saved answers found",
+    "emptyDesc": "Save any helpful response in Ask Sahayak AI to access it quickly later.",
+    "deleteTitle": "Delete Saved Answer?",
+    "deleteMsg": "Remove \"{{title}}\" from your saved answers?"
+  },
+  "historyPage": {
+    "title": "Conversation History",
+    "subtitle": "Browse your recent questions and re-open them in Ask Sahayak AI",
+    "emptyTitle": "No conversation history yet",
+    "emptyDesc": "Questions you ask Sahayak AI will appear here for quick follow-up.",
+    "startConv": "Start a Conversation",
+    "askAgain": "Ask Again",
+    "deleteTitle": "Remove History Item?",
+    "deleteMsg": "This will remove the selected question from your conversation history."
+  },
+  "myDocuments": {
+    "title": "My Documents",
+    "subtitle": "Manage your uploaded PDFs and text files indexed for AI Q&A",
+    "uploadNew": "Upload New Document",
+    "emptyTitle": "No uploaded documents",
+    "emptyDesc": "Upload a PDF or text file in Document Assistant to summarize and ask questions.",
+    "goToDoc": "Go to Document Assistant",
+    "deleteTitle": "Delete Document?",
+    "deleteMsg": "Remove \"{{name}}\" from My Documents?"
+  },
+  "notificationsPage": {
+    "title": "Notifications & Reminders",
+    "subtitle": "Manage weather alerts, scheme updates, and personal reminders",
+    "placeholder": "Add a reminder (e.g. Complete PM-KISAN e-KYC)...",
+    "emptyTitle": "All caught up!",
+    "emptyDesc": "You have no notifications or reminders right now."
+  },
+  "trustedSources": {
+    "title": "Trusted Information Sources",
+    "subtitle": "Official government and public portals referenced by Sahayak AI",
+    "badge": "Transparency & Trust"
+  },
+  "recommendations": {
+    "title": "Personalized Recommendations",
+    "subtitle": "Curated actions for {{prof}} in {{lang}}"
+  },
+  "expertSupport": {
+    "title": "Expert Support",
+    "subtitle": "Connect with human citizen-support specialists when AI guidance isn't enough",
+    "submitted": "Support request submitted!",
+    "viewRequests": "View My Requests",
+    "error": "Please fill in both subject and description.",
+    "subject": "Subject",
+    "subjectPlaceholder": "e.g. Need help verifying PM-KISAN land record mismatch",
+    "category": "Category",
+    "priority": "Priority",
+    "details": "Details",
+    "detailsPlaceholder": "Describe your question or issue clearly...",
+    "submitButton": "Submit Support Request"
+  },
+  "supportRequests": {
+    "title": "My Support Requests",
+    "subtitle": "Track status of your submitted expert assistance tickets",
+    "newRequest": "+ New Support Request"
+  },
+  "feedback": {
+    "title": "Feedback & Report an Issue",
+    "subtitle": "Help us improve accuracy, regional translations, and citizen usability",
+    "success": "Thank you! Your feedback has been recorded.",
+    "type": "Report Type",
+    "feature": "Related Feature",
+    "summary": "Summary",
+    "summaryPlaceholder": "Brief title of your feedback or issue",
+    "details": "Details",
+    "detailsPlaceholder": "Share what happened or what could be better...",
+    "submitButton": "Send Feedback"
+  },
+  "accessibilityPage": {
+    "title": "Accessibility Settings",
+    "subtitle": "Customize font size, contrast, and voice read-aloud for comfortable reading",
+    "textSize": "Text Size",
+    "sizes": {
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large"
+    },
+    "highContrast": "High Contrast Mode",
+    "highContrastDesc": "Increase visual contrast across cards and text",
+    "autoRead": "Auto-Read AI Answers",
+    "autoReadDesc": "Automatically speak AI responses using text-to-speech"
+  },
+  "profilePage": {
+    "title": "My Profile & Settings",
+    "subtitle": "Manage personal details, default profession, language, and privacy",
+    "saved": "Profile settings updated!",
+    "fullName": "Full Name",
+    "phone": "Phone",
+    "location": "Location",
+    "profession": "Primary Profession",
+    "language": "Preferred Language",
+    "privacyNote": "Privacy & Security: Your uploaded documents and API keys are never exposed in frontend code. Location and microphone permissions are requested only when you activate those tools.",
+    "saveButton": "Save Profile Settings"
+  },
+  "onboarding": {
+    "step1": "Choose Role",
+    "step2": "Complete Profile",
+    "step3": "Personalize",
+    "chooseRoleTitle": "Choose Your Role",
+    "chooseRoleSub": "Select the profession that best describes you",
+    "continueAs": "Continue as {{role}}",
+    "or": "or",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign In",
+    "newToSahayak": "New to Sahayak AI?",
+    "createAccountRole": "Create Account & Choose Role",
+    "welcomeBack": "Welcome Back to Sahayak AI",
+    "signInSub": "Sign in to access your personalized {{dashboard}}",
+    "emailLabel": "Email Address",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "signInBtn": "Sign In & Continue",
+    "signingIn": "Signing in...",
+    "completeProfileTitle": "Complete Your {{role}} Profile",
+    "completeProfileSub": "Tell us a little about your work so Sahayak AI can guide you better.",
+    "changeRole": "Change Role",
+    "signedInGoogle": "Signed in with Google as",
+    "fullName": "Full Name",
+    "createPassword": "Create Password",
+    "minChars": "Minimum 6 characters",
+    "optional": "(Optional)",
+    "back": "Back",
+    "continuePersonalize": "Continue to Personalize",
+    "personalizeTitle": "Personalize Your Assistant",
+    "personalizeSub": "Choose your language, interaction style, and topics for your {{dashboard}}.",
+    "preferredLanguage": "Preferred Language",
+    "interactionLabel": "How would you like to interact?",
+    "textChat": "Text Chat",
+    "voiceFirst": "Voice First",
+    "textAndVoice": "Text & Voice",
+    "topicsLabel": "Select {{role}} Topics & Services",
+    "alertsTitle": "Helpful Alerts & Reminders",
+    "alertsSub": "Get notified about relevant schemes, deadlines & local updates",
+    "settingUp": "Setting up your dashboard...",
+    "enterDashboard": "Enter {{dashboard}}",
+    "trustedTitle": "Trusted Across India",
+    "trustedSub": "Simple • Secure • Helpful",
+    "twoFaTitle": "Authenticator Verification",
+    "twoFaSub": "Enter the 6-digit code from your Authenticator app to continue.",
+    "verifyContinue": "Verify & Continue",
+    "verifying": "Verifying...",
+    "backSignIn": "Back to Sign In",
+    "loginSuccessHeading": "Login Successful!",
+    "loginSuccessSub": "Welcome to Sahayak AI",
+    "loginSuccessRedirect": "Redirecting you to your dashboard..."
+  }
+}
