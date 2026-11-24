@@ -5,8 +5,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .config import settings
-from .database import db_manager
 from .logging_config import configure_logging
+
+configure_logging()
+logger = logging.getLogger("sahayak.api")
+
+from .database import db_manager
 from .rag import rag_store
 from .routers import (
     admin_router,
@@ -19,9 +23,6 @@ from .routers import (
     user_data_router,
 )
 from .security import SecurityHeadersAndRateLimitMiddleware
-
-configure_logging()
-logger = logging.getLogger("sahayak.api")
 
 prod_issues = settings.validate_for_production()
 if prod_issues:
@@ -51,11 +52,14 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 @app.get("/api/health", tags=["System"])
 def health():
+    mongo_ok = db_manager.ping_or_reconnect()
     return {
         "status": "ok",
         "version": settings.APP_VERSION,
         "environment": settings.ENVIRONMENT,
-        "mongodb_connected": db_manager.using_mongodb,
+        "mongodb_connected": mongo_ok,
+        "mongodb_uri_scheme": db_manager.uri_scheme,
+        "mongodb_error": None if mongo_ok else db_manager.last_error_summary,
         "gemini_configured": bool(settings.GEMINI_API_KEY),
         "agmarknet_configured": bool(settings.DATA_GOV_API_KEY),
         "rate_limiting": settings.RATE_LIMIT_ENABLED,
