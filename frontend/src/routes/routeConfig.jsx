@@ -25,6 +25,9 @@ const LocalInformationPage = lazy(() =>
 const WeatherMarketPage = lazy(() =>
   import('../pages/InfoUpdatesPages').then((m) => ({ default: m.WeatherMarketPage }))
 );
+const AgricultureMarketPage = lazy(() =>
+  import('../pages/AgricultureMarketPage')
+);
 const EmergencyDisasterPage = lazy(() =>
   import('../pages/InfoUpdatesPages').then((m) => ({ default: m.EmergencyDisasterPage }))
 );
@@ -75,6 +78,7 @@ export const APP_ROUTES = [
   { path: '/eligibility', Component: SchemeEligibilityPage },
   { path: '/local-info', Component: LocalInformationPage },
   { path: '/weather-market', Component: WeatherMarketPage },
+  { path: '/agriculture-market', Component: AgricultureMarketPage },
   { path: '/emergency', Component: EmergencyDisasterPage },
   { path: '/saved', Component: SavedAnswersPage },
   { path: '/history', Component: ConversationHistoryPage },

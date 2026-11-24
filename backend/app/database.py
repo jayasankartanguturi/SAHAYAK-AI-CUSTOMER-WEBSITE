@@ -121,6 +121,10 @@ class DatabaseManager:
             self._db["customer_requests"].create_index([("customer_id", ASCENDING), ("created_at", DESCENDING)])
             self._db["revoked_tokens"].create_index([("jti", ASCENDING)], unique=True)
             self._db["revoked_tokens"].create_index([("expires_at", ASCENDING)], expireAfterSeconds=0)
+            self._db["agriculture_prices"].create_index(
+                [("state", ASCENDING), ("market", ASCENDING), ("commodity", ASCENDING), ("variety", ASCENDING), ("reported_date", ASCENDING)],
+                unique=True,
+            )
             self._db["feedback"].create_index([("user_id", ASCENDING)])
             self._db["user_preferences"].create_index([("user_id", ASCENDING)], unique=True)
         except PyMongoError as exc:

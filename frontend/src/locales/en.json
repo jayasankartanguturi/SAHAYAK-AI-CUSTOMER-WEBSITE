@@ -66,7 +66,8 @@
     "support-requests": "My Support Requests",
     "feedback": "Feedback & Report an Issue",
     "accessibility": "Accessibility Settings",
-    "profile": "My Profile & Settings"
+    "profile": "My Profile & Settings",
+    "agriculture-market": "Agriculture Market"
   },
   "topNav": {
     "searchPlaceholder": "Search anything... (e.g. crop disease, scholarship)",
@@ -76,7 +77,11 @@
     "profileSettings": "My Profile & Settings",
     "accessibilitySettings": "Accessibility Settings",
     "signInRegister": "Sign In / Register (JWT)",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "askShort": "Ask Sahayak",
+    "aiAssist": "AI Assist",
+    "services": "Services",
+    "activity": "Activity"
   },
   "auth": {
     "continueToSignIn": "Continue to Sign In",
@@ -505,5 +510,60 @@
     "loginSuccessHeading": "Login Successful!",
     "loginSuccessSub": "Welcome to Sahayak AI",
     "loginSuccessRedirect": "Redirecting you to your dashboard..."
+  },
+  "agriMarket": {
+    "title": "Agriculture Market (Agmarknet)",
+    "subtitle": "Check and compare real reported Indian mandi prices in INR per quintal",
+    "state": "State",
+    "allStates": "All States",
+    "market": "Market / Mandi",
+    "allMarketsIn": "All Markets in {{state}}",
+    "crop": "Crop / Commodity",
+    "cropPlaceholder": "e.g. Dry Chillies, Tomato, Paddy, Cotton",
+    "searchPrices": "Search Prices",
+    "searching": "Searching...",
+    "quickSearch": "Quick search:",
+    "showingRecords": "Showing {{count}} reported mandi record(s) • Unit:",
+    "unit": "INR per quintal",
+    "source": "Source",
+    "cached": "Cached",
+    "live": "Live",
+    "min": "Min",
+    "max": "Max",
+    "modal": "Modal",
+    "unavailable": "Unavailable",
+    "reported": "Reported:",
+    "noPricesTitle": "No Reported Prices Found",
+    "compareTitle": "Market Comparison — {{commodity}} ({{state}})",
+    "highestReported": "Highest Reported:",
+    "colMarket": "Market",
+    "colDistrict": "District",
+    "colMin": "Min (₹/qtl)",
+    "colMax": "Max (₹/qtl)",
+    "colModal": "Modal (₹/qtl)",
+    "colDate": "Reported Date",
+    "guideTitle": "Understanding Mandi Prices (Farmer Guide)",
+    "guideMinTitle": "Minimum Price",
+    "guideMinDesc": "The lowest price at which the crop was sold in that mandi on the reported date (usually for lower grade or higher moisture lots).",
+    "guideMaxTitle": "Maximum Price",
+    "guideMaxDesc": "The highest price paid in that mandi for top-quality lots on that date. It is a reference only and not a guaranteed selling price.",
+    "guideModalTitle": "Modal Price (Most Common)",
+    "guideModalDesc": "The average / most common trading price where most farmers sold their produce on that day — best for estimating expected returns.",
+    "disclaimer": "Highest reported price reflects the latest available Agmarknet mandi record and does not guarantee the exact price a farmer will receive."
+  },
+  "myRequests": {
+    "subtitle": "Submit requests and track real-time status updates & admin responses",
+    "badge": "Connected to Admin Portal",
+    "searchPlaceholder": "Search by ID, title, category...",
+    "allStatuses": "All Statuses",
+    "newRequest": "New Request",
+    "closeForm": "Close Form",
+    "submitTitle": "Submit a New Request",
+    "submitBtn": "Submit Request",
+    "cancel": "Cancel",
+    "adminResponses": "Admin Responses & Updates",
+    "statusTimeline": "Status Timeline",
+    "replyPlaceholder": "Add follow-up information or reply to admin...",
+    "replyBtn": "Reply"
   }
 }

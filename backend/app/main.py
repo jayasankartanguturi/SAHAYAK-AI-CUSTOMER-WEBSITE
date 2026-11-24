@@ -10,6 +10,7 @@ from .logging_config import configure_logging
 from .rag import rag_store
 from .routers import (
     admin_router,
+    agriculture_router,
     auth_router,
     chat_router,
     customer_requests_router,
@@ -81,3 +82,4 @@ app.include_router(services_router.router)
 app.include_router(user_data_router.router)
 app.include_router(admin_router.router)
 app.include_router(customer_requests_router.router)
+app.include_router(agriculture_router.router)

@@ -199,8 +199,8 @@ export default function CustomerRequestsPage() {
       <PageHeader
         icon={ClipboardList}
         title={t('supportRequests.title') !== 'supportRequests.title' ? t('supportRequests.title') : 'My Requests'}
-        subtitle="Submit requests and track real-time status updates & admin responses"
-        badge="Connected to Admin Portal"
+        subtitle={t('myRequests.subtitle')}
+        badge={t('myRequests.badge')}
       />
 
       {/* Action Bar */}
@@ -212,7 +212,7 @@ export default function CustomerRequestsPage() {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by ID, title, category..."
+              placeholder={t('myRequests.searchPlaceholder')}
               className="w-full bg-transparent text-[13px] focus:outline-none"
             />
           </div>
@@ -221,7 +221,7 @@ export default function CustomerRequestsPage() {
             onChange={(e) => setStatusFilter(e.target.value)}
             className="bg-white/85 border border-[#DFD8F5] rounded-full px-3.5 py-2 text-[12.5px] font-semibold text-[#171638] focus:outline-none cursor-pointer"
           >
-            <option value="">All Statuses</option>
+            <option value="">{t('myRequests.allStatuses')}</option>
             {STATUSES.map((s) => (
               <option key={s} value={s}>
                 {s}

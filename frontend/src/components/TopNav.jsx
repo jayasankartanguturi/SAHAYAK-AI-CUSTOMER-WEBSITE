@@ -90,6 +90,7 @@ export default function TopNav({ onOpenAuthModal }) {
       { id: 'my-profession', label: t('nav.my-profession') },
       { id: 'profession-services', label: t('nav.profession-services') },
       { id: 'schemes', label: t('nav.schemes') },
+      { id: 'agriculture-market', label: t('nav.agriculture-market') },
       { id: 'weather-market', label: t('nav.weather-market') },
       { id: 'local-info', label: t('nav.local-info') },
     ],
@@ -140,14 +141,14 @@ export default function TopNav({ onOpenAuthModal }) {
               }`}
             >
               <MessageSquareText className="w-3.5 h-3.5" />
-              <span>Ask Sahayak</span>
+              <span>{t('topNav.askShort')}</span>
               <Sparkles className="w-3.5 h-3.5" />
             </button>
 
             {[
-              { key: 'ai', label: 'AI Assist' },
-              { key: 'services', label: 'Services' },
-              { key: 'activity', label: 'Activity' },
+              { key: 'ai', label: t('topNav.aiAssist') },
+              { key: 'services', label: t('topNav.services') },
+              { key: 'activity', label: t('topNav.activity') },
             ].map((menu) => (
               <div key={menu.key} className="relative">
                 <button

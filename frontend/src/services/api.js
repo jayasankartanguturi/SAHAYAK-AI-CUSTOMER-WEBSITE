@@ -170,6 +170,32 @@ export const api = {
   retryCustomerRequestSync: () =>
     request('/customer-requests/retry-sync', { method: 'POST' }),
 
+  getAgricultureMarkets: (params = {}) => {
+    const qs = new URLSearchParams(
+      Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== '')
+    ).toString();
+    return request(`/agriculture/markets${qs ? `?${qs}` : ''}`);
+  },
+
+  getAgricultureCommodities: (search = '') => {
+    const qs = search ? `?search=${encodeURIComponent(search)}` : '';
+    return request(`/agriculture/commodities${qs}`);
+  },
+
+  getAgriculturePrices: (params = {}) => {
+    const qs = new URLSearchParams(
+      Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== '')
+    ).toString();
+    return request(`/agriculture/prices${qs ? `?${qs}` : ''}`);
+  },
+
+  compareAgriculturePrices: (params = {}) => {
+    const qs = new URLSearchParams(
+      Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== '')
+    ).toString();
+    return request(`/agriculture/compare${qs ? `?${qs}` : ''}`);
+  },
+
   chat: async (message, language, profession, docId = null, conversationId = null) => {
     try {
       return await request('/chat', {

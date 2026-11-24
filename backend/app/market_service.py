@@ -89,8 +89,12 @@ def fetch_market_updates(
                 params["filters[market]"] = location
 
             url = f"https://api.data.gov.in/resource/{AGMARKNET_RESOURCE_ID}"
-            with httpx.Client(timeout=5.0) as client:
-                resp = client.get(url, params=params)
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
+                "Accept": "application/json",
+            }
+            with httpx.Client(timeout=10.0) as client:
+                resp = client.get(url, params=params, headers=headers)
                 resp.raise_for_status()
                 records = resp.json().get("records", [])
 

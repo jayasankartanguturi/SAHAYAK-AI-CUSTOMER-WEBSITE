@@ -66,7 +66,8 @@
     "support-requests": "मेरे सहायता अनुरोध",
     "feedback": "फीडबैक और रिपोर्ट",
     "accessibility": "एक्सेसिबिलिटी सेटिंग्स",
-    "profile": "मेरी प्रोफ़ाइल और सेटिंग्स"
+    "profile": "मेरी प्रोफ़ाइल और सेटिंग्स",
+    "agriculture-market": "कृषि बाज़ार"
   },
   "topNav": {
     "searchPlaceholder": "कुछ भी खोजें... (जैसे फसल रोग, छात्रवृत्ति)",
@@ -76,7 +77,11 @@
     "profileSettings": "मेरी प्रोफ़ाइल और सेटिंग्स",
     "accessibilitySettings": "एक्सेसिबिलिटी सेटिंग्स",
     "signInRegister": "साइन इन / रजिस्टर (JWT)",
-    "signOut": "साइन आउट"
+    "signOut": "साइन आउट",
+    "askShort": "सहायक AI",
+    "aiAssist": "AI सहायता",
+    "services": "सेवाएं",
+    "activity": "गतिविधि"
   },
   "auth": {
     "continueToSignIn": "साइन इन पर जाएं",
@@ -505,5 +510,60 @@
     "loginSuccessHeading": "लॉगिन सफल रहा!",
     "loginSuccessSub": "सहायक AI में आपका स्वागत है",
     "loginSuccessRedirect": "आपको आपके डैशबोर्ड पर ले जाया जा रहा है..."
+  },
+  "agriMarket": {
+    "title": "कृषि बाज़ार (एगमार्कनेट)",
+    "subtitle": "भारतीय मंडियों के वास्तविक फसल भाव रुपये प्रति क्विंटल (INR) में देखें और तुलना करें",
+    "state": "राज्य",
+    "allStates": "सभी राज्य",
+    "market": "मंडी / बाज़ार",
+    "allMarketsIn": "{{state}} की सभी मंडियां",
+    "crop": "फसल / जिंस",
+    "cropPlaceholder": "उदा. Dry Chillies, Tomato, Paddy, Cotton",
+    "searchPrices": "भाव खोजें",
+    "searching": "खोजा जा रहा है...",
+    "quickSearch": "त्वरित खोज:",
+    "showingRecords": "{{count}} मंडी भाव रिकॉर्ड दिखाए जा रहे हैं • इकाई:",
+    "unit": "रुपये प्रति क्विंटल",
+    "source": "स्रोत",
+    "cached": "कैश्ड",
+    "live": "लाइव",
+    "min": "न्यूनतम",
+    "max": "अधिकतम",
+    "modal": "मॉडल (सामान्य)",
+    "unavailable": "उपलब्ध नहीं",
+    "reported": "तिथि:",
+    "noPricesTitle": "कोई मंडी भाव नहीं मिला",
+    "compareTitle": "मंडी तुलना — {{commodity}} ({{state}})",
+    "highestReported": "उच्चतम भाव:",
+    "colMarket": "मंडी",
+    "colDistrict": "जिला",
+    "colMin": "न्यूनतम (₹/क्विं)",
+    "colMax": "अधिकतम (₹/क्विं)",
+    "colModal": "मॉडल (₹/क्विं)",
+    "colDate": "तिथि",
+    "guideTitle": "मंडी भाव समझें (किसान गाइड)",
+    "guideMinTitle": "न्यूनतम भाव (Minimum Price)",
+    "guideMinDesc": "उस दिन मंडी में फसल का सबसे कम बिक्री भाव (आमतौर पर कम ग्रेड या अधिक नमी वाली उपज के लिए)।",
+    "guideMaxTitle": "अधिकतम भाव (Maximum Price)",
+    "guideMaxDesc": "उस दिन सर्वोत्तम गुणवत्ता वाली फसल का सबसे ऊंचा भाव। यह केवल संदर्भ है, पक्की गारंटी नहीं।",
+    "guideModalTitle": "मॉडल भाव (सबसे सामान्य भाव)",
+    "guideModalDesc": "वह औसत भाव जिस पर उस दिन अधिकांश किसानों ने उपज बेची — अनुमानित आय जानने के लिए सबसे उपयोगी।",
+    "disclaimer": "उच्चतम भाव नवीनतम एगमार्कनेट मंडी रिकॉर्ड पर आधारित है और अंतिम बिक्री भाव की गारंटी नहीं देता।"
+  },
+  "myRequests": {
+    "subtitle": "अनुरोध भेजें और वास्तविक समय की स्थिति तथा एडमिन उत्तर देखें",
+    "badge": "एडमिन पोर्टल से जुड़ा हुआ",
+    "searchPlaceholder": "ID, शीर्षक या श्रेणी से खोजें...",
+    "allStatuses": "सभी स्थितियां",
+    "newRequest": "नया अनुरोध",
+    "closeForm": "फ़ॉर्म बंद करें",
+    "submitTitle": "नया अनुरोध सबमिट करें",
+    "submitBtn": "अनुरोध भेजें",
+    "cancel": "रद्द करें",
+    "adminResponses": "एडमिन उत्तर और अपडेट",
+    "statusTimeline": "स्थिति समयरेखा",
+    "replyPlaceholder": "अतिरिक्त जानकारी या एडमिन को उत्तर लिखें...",
+    "replyBtn": "भेजें"
   }
 }
