@@ -1,104 +1,161 @@
-# 🌟 Sahayak AI — AI Assistance for Every Profession
+# 🌟 SAHAYAK AI
+### AI Assistance for Every Profession
 
 <p align="center">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=25&pause=1000&color=754CE7&center=true&vCenter=true&width=850&lines=Welcome+to+Sahayak+AI;Your+Intelligent+Digital+Assistant;AI+Assistance+for+Every+Profession;One+Platform.+Endless+Possibilities." alt="Sahayak AI Typing Animation"/>
 </p>
 
 <p align="center">
-  <b>An intelligent AI-powered ecosystem designed to simplify everyday tasks, support professionals, and connect people with useful information and business opportunities.</b>
+  <b>An AI-powered platform designed to make information, assistance, and digital services easier to access for individuals, professionals, and communities.</b>
 </p>
-
----
-
-## 🚀 Explore the Sahayak Ecosystem
-
-<p align="center">
-  <img src="https://img.shields.io/badge/SAHAYAK_AI-AI_Assistance-754CE7?style=for-the-badge&logo=googleassistant&logoColor=white"/>
-  <img src="https://img.shields.io/badge/SAHAYAK_B2B-Business_&_Trade-252344?style=for-the-badge&logo=shopify&logoColor=white"/>
-</p>
-
-### 🤖 1. Sahayak AI — Customer Portal
-
-An AI-powered platform that provides intelligent assistance for individuals, students, farmers, professionals, and different communities.
 
 <p align="center">
   <a href="https://sahayak-ai-customer-website.vercel.app/">
-    <img src="https://img.shields.io/badge/🚀_VISIT_CUSTOMER_PORTAL-Open_Sahayak_AI-754CE7?style=for-the-badge"/>
+    <img src="https://img.shields.io/badge/🌐_LIVE_WEBSITE-Visit_Sahayak_AI-754CE7?style=for-the-badge" alt="Live Website"/>
+  </a>
+  <a href="https://github.com/jayasankartanguturi/SAHAYAK-AI-CUSTOMER-WEBSITE">
+    <img src="https://img.shields.io/badge/GITHUB-Source_Code-252344?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repository"/>
   </a>
 </p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/React.js-Frontend-61DAFB?style=flat-square&logo=react&logoColor=black"/>
+  <img src="https://img.shields.io/badge/Python-Backend-3776AB?style=flat-square&logo=python&logoColor=white"/>
+  <img src="https://img.shields.io/badge/FastAPI-REST_API-009688?style=flat-square&logo=fastapi&logoColor=white"/>
+  <img src="https://img.shields.io/badge/MongoDB-Database-47A248?style=flat-square&logo=mongodb&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Google_Gemini-AI-8E75B2?style=flat-square&logo=googlegemini&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Vercel-Frontend_Deployment-000000?style=flat-square&logo=vercel&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Render-Backend_Deployment-46E3B7?style=flat-square&logo=render&logoColor=black"/>
+</p>
+
+---
+
+## 📌 1. What Is Sahayak AI?
+
+**Sahayak AI** is an intelligent digital assistance platform built to make AI useful in everyday life and across different professions.
+
+People often need information and guidance for different tasks, but finding the right information can take time. Language barriers and limited access to digital services can make this even more difficult.
+
+Sahayak AI aims to make these tasks easier through one platform that combines AI assistance, profession-based support, document assistance, and useful information.
+
+### Our Main Objectives
+
+- Make AI assistance accessible to different professions.
+- Help people find useful information more easily.
+- Support regional language accessibility.
+- Simplify access to government scheme information.
+- Provide agriculture and market-related information.
+- Connect AI technology with practical, real-world needs.
+
+**Our vision:** Make AI accessible, understandable, and useful for everyone.
+
+---
+
+## 🌐 2. Explore the Sahayak Ecosystem
+
+The Sahayak ecosystem consists of two platforms with different purposes.
+
+<details>
+<summary><b>🤖 Sahayak AI – Customer Portal</b></summary>
+
+**AI Assistance for Every Profession**
+
+The customer portal focuses on providing AI-powered assistance and useful information to individuals, students, farmers, professionals, and communities.
+
+- AI-powered assistance.
+- Profession-based support.
+- Voice, image, and document assistance.
+- Government scheme information.
+- Agriculture and market information.
+- Multilingual support.
 
 **Live Website:** https://sahayak-ai-customer-website.vercel.app/
 
-### 🛍️ 2. Sahayak B2B — Business & Trade Portal
+**GitHub:** https://github.com/jayasankartanguturi/SAHAYAK-AI-CUSTOMER-WEBSITE
 
-A connected business marketplace designed to bring retailers, wholesalers, manufacturers, suppliers, and buyers together through digital trade services.
+</details>
 
-<p align="center">
-  <a href="https://sahayak-b2b.netlify.app/">
-    <img src="https://img.shields.io/badge/🌐_VISIT_B2B_PORTAL-Open_Sahayak_B2B-16A34A?style=for-the-badge"/>
-  </a>
-  <a href="https://github.com/venkatavarshith999/SAHAYAK-B2B">
-    <img src="https://img.shields.io/badge/💻_GITHUB_REPOSITORY-Explore_Source_Code-252344?style=for-the-badge&logo=github&logoColor=white"/>
-  </a>
-</p>
+<details>
+<summary><b>🏢 Sahayak B2B – Business & Trade Portal</b></summary>
+
+**Smart Business. Better Connections. Stronger Trade.**
+
+The B2B portal focuses on connecting buyers, retailers, wholesalers, manufacturers, suppliers, and logistics partners.
+
+- Supplier and product discovery.
+- Business connections.
+- Price and MOQ comparison.
+- Quotations and procurement.
+- Buyer-seller negotiations.
+- Order and logistics management.
 
 **Live Website:** https://sahayak-b2b.netlify.app/
 
-**GitHub Repository:** https://github.com/venkatavarshith999/SAHAYAK-B2B
+**GitHub:** https://github.com/venkatavarshith999/SAHAYAK-B2B
+
+</details>
+
+| Platform | Purpose | Website |
+|---|---|---|
+| Sahayak AI | AI assistance and profession-based support | [Visit Portal](https://sahayak-ai-customer-website.vercel.app/) |
+| Sahayak B2B | Business marketplace and trade management | [Visit Portal](https://sahayak-b2b.netlify.app/) |
 
 ---
 
-## 💡 About the Project
+## 🎯 3. Problems We Aim to Solve
 
-**Sahayak AI** is an AI-powered assistance ecosystem built to make intelligent technology accessible and useful across different professions.
+Many people and small businesses face challenges when trying to access information, digital assistance, and business opportunities.
 
-It brings together AI assistance, profession-based support, government scheme information, local information, document assistance, and business services.
-
-The ecosystem consists of two connected portals:
-
-- **Sahayak AI:** Intelligent assistance and useful information for individuals and professionals.
-- **Sahayak B2B:** Business discovery, sourcing, and digital trade management.
-
-> Our vision is simple: Make AI more accessible, practical, and useful for everyone.
-
----
-
-## 🎯 Problems We Aim to Solve
-
-- Difficulty finding reliable and useful information.
-- Limited access to technology in regional languages.
-- Challenges understanding government schemes and services.
-- Difficulty accessing profession-specific guidance.
-- Time-consuming business supplier discovery.
-- Challenges comparing product prices and minimum order quantities.
-- Limited digital support for small businesses and local communities.
-
----
-
-## ✨ Sahayak AI — Key Features
-
-| Feature | Description |
+| Problem | How Sahayak Helps |
 |---|---|
-| 🤖 AI Assistant | Intelligent answers and everyday assistance |
-| 🎙️ Voice Assistant | Voice-based interaction and assistance |
-| 🖼️ Image Assistance | Help understanding image-based information |
-| 📄 Document Assistant | Assistance with document information |
-| 👨‍🌾 Profession-Based Support | Guidance based on professional needs |
-| 🏛️ Government Schemes | Government scheme information |
-| 🌦️ Weather Updates | Useful weather information |
-| 📈 Agricultural Market | Agricultural market information |
-| 🌐 Language Support | Regional language accessibility |
-| 💾 Saved Answers | Save useful AI responses |
-| 🔔 Notifications & Reminders | Stay updated with important information |
-| 📚 Conversation History | Access previous conversations |
+| Difficulty finding reliable information | Provides AI-powered information assistance. |
+| Language barriers | Supports regional language accessibility. |
+| Difficulty understanding government schemes | Helps users explore scheme-related information. |
+| Limited profession-specific guidance | Provides assistance based on different professional needs. |
+| Difficulty understanding documents | Offers AI-based document assistance. |
+| Access to agricultural information | Connects users with agriculture and market-related information. |
+| Difficulty finding business suppliers | Sahayak B2B supports supplier and product discovery. |
+| Complicated business procurement | Provides structured quotation and negotiation workflows. |
 
 ---
 
-## 🛍️ Sahayak B2B — Business & Trade Marketplace
+## ✨ 4. Sahayak AI – Key Features
 
-Sahayak B2B is the business and marketplace portal within the Sahayak ecosystem.
+Sahayak AI brings different forms of assistance together in one platform.
 
-It aims to simplify business connections and trade activities between different types of users.
+| Feature | What It Does |
+|---|---|
+| 🤖 AI Assistant | Answers questions and helps with everyday tasks. |
+| 🎙️ Voice Assistance | Supports voice-based interaction. |
+| 🖼️ Image Assistance | Helps users understand information from images. |
+| 📄 Document Assistance | Helps users understand document content. |
+| 👨‍🌾 Profession-Based Support | Provides guidance based on professional requirements. |
+| 🏛️ Government Schemes | Helps users explore government scheme information. |
+| 🌦️ Weather Information | Provides useful weather-related information. |
+| 📈 Agricultural Market | Helps users access agricultural market information. |
+| 🌐 Language Support | Improves accessibility through regional languages. |
+| 💾 Saved Answers | Allows users to save useful AI responses. |
+| 🔔 Notifications & Reminders | Helps users keep track of important updates. |
+| 📚 Conversation History | Provides access to previous conversations. |
+
+### Who Can Use Sahayak AI?
+
+Sahayak AI is designed to support different categories of users.
+
+- **Students:** Learning assistance, explanations, and useful information.
+- **Farmers:** Agricultural information, market updates, and scheme guidance.
+- **Professionals:** Work-related information and everyday assistance.
+- **Small Business Owners:** Useful business information and digital assistance.
+- **General Public:** Everyday questions, document assistance, and information access.
+- **Rural Communities:** Accessible information and regional language support.
+
+---
+
+## 🏢 5. Sahayak B2B – Business & Trade Marketplace
+
+Sahayak B2B is the business-focused platform within the Sahayak ecosystem.
+
+It aims to simplify the way businesses find suppliers, compare products, communicate with buyers and sellers, and manage trade activities.
 
 ### Key Capabilities
 
@@ -115,240 +172,346 @@ It aims to simplify business connections and trade activities between different 
 
 ### B2B Project Links
 
-| Resource | Link |
+- **Live Website:** [Sahayak B2B](https://sahayak-b2b.netlify.app/)
+- **GitHub Repository:** [SAHAYAK-B2B](https://github.com/venkatavarshith999/SAHAYAK-B2B)
+
+The B2B portal is maintained separately and has its own application architecture and repository.
+
+---
+
+## 🧑‍💻 6. Technology Stack
+
+The Sahayak ecosystem uses separate technology stacks for its two portals.
+
+### Sahayak AI – Customer Portal
+
+| Layer | Technology |
 |---|---|
-| Live Portal | [Sahayak B2B](https://sahayak-b2b.netlify.app/) |
-| GitHub Repository | [SAHAYAK-B2B](https://github.com/venkatavarshith999/SAHAYAK-B2B) |
+| Frontend | React.js |
+| Frontend Tool | Vite |
+| Programming Language | JavaScript |
+| Styling | CSS |
+| Backend | Python |
+| Backend Framework | FastAPI |
+| Communication | REST APIs |
+| Database | MongoDB Atlas |
+| AI Integration | Google Gemini API |
+| Agriculture Integration | Agmarknet |
+| Authentication | Google OAuth |
+| Frontend Hosting | Vercel |
+| Backend Hosting | Render |
+
+### Sahayak B2B – Business Portal
+
+The B2B portal uses a separate architecture.
+
+| Layer | Technology |
+|---|---|
+| Frontend | Vite, Vanilla JavaScript |
+| Backend | Node.js, Express.js |
+| Database | PostgreSQL |
+| ORM | Prisma |
+| AI Integration | Google Gemini |
+| Authentication | Argon2id, Google OAuth |
+| Deployment | Netlify |
+
+**Important:** These are two separate applications. Their repositories, backends, databases, and deployment configurations should be managed independently.
 
 ---
 
-## 🧑‍💻 Technology Stack
+## 🏗️ 7. System Architecture
 
-### Sahayak AI — Customer Portal
+The following diagram shows the high-level architecture of the Sahayak ecosystem.
 
-**Frontend**
-- React.js
-- Vite
-- JavaScript
-- CSS
+```mermaid
+flowchart TD
+    A["SAHAYAK ECOSYSTEM"]
 
-**Backend**
-- Python
-- FastAPI
-- REST APIs
+    A --> B["SAHAYAK AI"]
+    A --> C["SAHAYAK B2B"]
 
-**Database**
-- MongoDB Atlas
+    subgraph Customer["Customer Portal"]
+        B --> D["React + Vite Frontend"]
+        D --> E["FastAPI Backend"]
+        E --> F[("MongoDB Atlas")]
+        E --> G["Google Gemini API"]
+        E --> H["Agmarknet Integration"]
+        E --> I["Google OAuth"]
+    end
 
-**AI & Integrations**
-- Google Gemini API
-- Agmarknet integration
-- Google OAuth
-
-**Deployment**
-- Vercel — Frontend
-- Render — Backend
-- MongoDB Atlas — Database
-
-### Sahayak B2B — Business Portal
-
-The B2B portal is maintained in a separate repository with its own application architecture and deployment.
-
-- **Repository:** [SAHAYAK-B2B](https://github.com/venkatavarshith999/SAHAYAK-B2B)
-- **Deployment:** [Netlify Live Website](https://sahayak-b2b.netlify.app/)
-
----
-
-## 🏗️ Sahayak AI — Platform Architecture
-
-```text
-                    SAHAYAK ECOSYSTEM
-                           |
-             +-------------+-------------+
-             |                           |
-        SAHAYAK AI                  SAHAYAK B2B
-      Customer Portal              Business Portal
-             |                           |
-       React Frontend              B2B Application
-             |                           |
-       REST APIs                  Business Services
-             |                           |
-       FastAPI Backend                   |
-             |                           |
-       +-----+------+                    |
-       |            |                    |
-    MongoDB      Gemini API          B2B Database
-     Atlas        AI Engine           & Services
-       |
-   External APIs
-   Agmarknet etc.
+    subgraph Business["Business Portal"]
+        C --> J["Vite + JavaScript Frontend"]
+        J --> K["Node.js + Express Backend"]
+        K --> L[("PostgreSQL Database")]
+        K --> M["Prisma ORM"]
+        K --> N["Gemini AI & KAEN"]
+    end
 ```
 
-*This diagram represents the high-level ecosystem; the two portals have separate application repositories.*
+### How the Customer Portal Works
+
+1. A user interacts with the Sahayak AI frontend.
+2. The frontend sends requests to the FastAPI backend.
+3. The backend processes the request.
+4. Required information is retrieved from the database or connected services.
+5. AI-powered requests are handled through the Gemini integration.
+6. The backend returns the response to the frontend.
+
+The B2B portal follows its own business application workflow.
 
 ---
 
-## 🌍 Our Vision
+## 🔐 8. Security & Privacy
 
-Sahayak aims to build a connected digital ecosystem that supports:
+Sahayak AI includes security practices to help protect application access and user information.
 
-- Individuals looking for everyday assistance.
-- Farmers seeking agricultural information.
-- Students and professionals needing useful guidance.
-- Retailers and wholesalers seeking trade opportunities.
-- Manufacturers and suppliers connecting with buyers.
-- Users who need accessible information in their preferred language.
-
----
-
-## 🎯 Project Goals
-
-- Make AI assistance accessible to different professions.
-- Reduce the effort required to find useful information.
-- Provide a simple and user-friendly experience.
-- Connect AI capabilities with real-world services.
-- Improve digital accessibility for local communities.
-- Simplify business sourcing and trade connections.
-- Build a scalable ecosystem for future integrations.
-
----
-
-## 🔐 Security & Privacy
-
-Sahayak AI follows important application security practices:
-
-- Environment-based API configuration.
+- Environment-based configuration for sensitive credentials.
 - Google OAuth authentication integration.
 - MongoDB Atlas database connectivity.
 - Backend API validation.
 - CORS configuration.
-- Rate limiting.
+- API rate limiting.
+- Secure handling of application configuration.
 
-**Security Note:** Never commit API keys, database passwords, OAuth secrets, or private environment files to GitHub.
+### Security Best Practices
+
+- Never expose API keys in frontend code.
+- Never commit `.env` files to GitHub.
+- Keep database credentials private.
+- Use secure production environment variables.
+- Restrict access to sensitive backend endpoints.
 
 ---
 
-## ⚙️ Run Sahayak AI Locally
+## ⚙️ 9. Run Sahayak AI Locally
 
-### 1. Clone the Customer Portal Repository
+Follow the steps below to set up the customer portal on your computer.
+
+### Prerequisites
+
+Install the following:
+
+- Node.js and npm.
+- Python 3.
+- Git.
+- MongoDB Atlas account or an appropriate MongoDB connection.
+- Google Gemini API key.
+
+### Step 1 – Clone the Repository
 
 ```bash
-git clone YOUR_SAHAYAK_AI_REPOSITORY_URL
-cd YOUR_PROJECT_FOLDER
+git clone https://github.com/jayasankartanguturi/SAHAYAK-AI-CUSTOMER-WEBSITE.git
+
+cd SAHAYAK-AI-CUSTOMER-WEBSITE
 ```
 
-### 2. Frontend Setup
+### Step 2 – Install Frontend Dependencies
+
+Open a terminal in the frontend directory:
 
 ```bash
 cd frontend
 npm install
+```
+
+Start the frontend development server:
+
+```bash
 npm run dev
 ```
 
-### 3. Backend Setup
+### Step 3 – Set Up the Backend
 
-Open another terminal:
+Open another terminal in the project directory:
 
 ```bash
 cd backend
+```
+
+Create and activate a Python virtual environment if required.
+
+**Windows:**
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+Install backend dependencies:
+
+```bash
 pip install -r requirements.txt
+```
+
+### Step 4 – Configure Environment Variables
+
+Create the required local `.env` configuration using the environment variable names provided in the backend project.
+
+Typical configuration categories include:
+
+- MongoDB connection string.
+- Gemini API key.
+- Google OAuth credentials.
+- Frontend origin and CORS settings.
+- Other required backend service settings.
+
+Use the actual variable names from the repository's environment example. Do not commit real credentials to GitHub.
+
+### Step 5 – Start the Backend
+
+Use the FastAPI startup command configured in the project.
+
+For example, if the backend entry point is `app.main`:
+
+```bash
 uvicorn app.main:app --reload
 ```
 
-Configure the required environment variables in your local `.env` files before running the application.
-
-*Note: Replace the repository URL and folder names with your actual project details.*
+**Note:** The backend entry point and commands may differ depending on the current project structure. Check the backend files and configuration before running this example.
 
 ---
 
-## 📸 Project Screenshots
+## 🌐 10. Live Deployment
 
-Add actual screenshots of both portals here.
+The Sahayak AI customer portal is deployed using separate frontend and backend hosting services.
+
+| Component | Hosting Service |
+|---|---|
+| Customer Frontend | Vercel |
+| Customer Backend | Render |
+| Database | MongoDB Atlas |
+
+### Live Project
+
+<p align="center">
+  <a href="https://sahayak-ai-customer-website.vercel.app/">
+    <img src="https://img.shields.io/badge/🚀_OPEN_SAHAYAK_AI-Live_Application-754CE7?style=for-the-badge" alt="Open Sahayak AI"/>
+  </a>
+</p>
+
+**Website:** https://sahayak-ai-customer-website.vercel.app/
+
+---
+
+## 📸 11. Project Screenshots
+
+Add screenshots of the actual application to help visitors understand the user interface.
+
+Suggested screenshot structure:
 
 ```text
 screenshots/
-├── sahayak-ai-homepage.png
-├── sahayak-ai-dashboard.png
+│
+├── sahayak-homepage.png
+├── sahayak-dashboard.png
+├── sahayak-ai-assistant.png
+├── sahayak-document-assistant.png
 └── sahayak-b2b-portal.png
 ```
 
-Example:
+After adding the screenshots, display them in this section:
 
 ```markdown
-![Sahayak AI Homepage](screenshots/sahayak-ai-homepage.png)
+![Sahayak AI Homepage](screenshots/sahayak-homepage.png)
 
-![Sahayak AI Dashboard](screenshots/sahayak-ai-dashboard.png)
+![Sahayak AI Dashboard](screenshots/sahayak-dashboard.png)
 
-![Sahayak B2B Portal](screenshots/sahayak-b2b-portal.png)
+![Sahayak AI Assistant](screenshots/sahayak-ai-assistant.png)
 ```
 
 ---
 
-## 🚀 Future Enhancements
+## 🚀 12. Future Enhancements
+
+We plan to expand the Sahayak ecosystem with additional capabilities.
+
+### Customer Portal
 
 - Advanced multilingual voice assistance.
 - WhatsApp AI assistant integration.
 - Phone Call IVR integration.
-- More profession-specific AI tools.
-- Improved AI document processing.
+- More profession-specific AI services.
+- Improved document understanding.
 - Expert support integration.
-- Expanded B2B marketplace capabilities.
-- More regional services and integrations.
+- Additional regional information services.
 
-*WhatsApp and IVR are planned integrations, not currently advertised as live features.*
+### Business Portal
+
+- Advanced AI-powered business intelligence.
+- Improved supplier discovery.
+- Enhanced product comparison.
+- More negotiation capabilities.
+- Additional logistics integrations.
+- Business analytics and reporting.
+
+**Note:** WhatsApp and Phone Call IVR are planned integrations, not features being represented as currently live.
 
 ---
 
-## 👨‍💻 Project Team
+## 👨‍💻 13. Project Team
 
-| Name | Role |
+| Team Member | Responsibility |
 |---|---|
-| Jayasankar Tanguturi | CTO — Sahayak AI |
-| Varshith Kundrapu | CEO — Sahayak Ecosystem |
+| **Jayasankar Tanguturi** | CTO – Sahayak AI |
+| **Varshith Kundrapu** | CEO – Sahayak Ecosystem |
 
 ---
 
-## 🤝 Contributing
+## 🤝 14. Contributing
 
-Contributions, suggestions, and feedback are welcome.
+Suggestions, feedback, and contributions are welcome.
 
 If you want to contribute:
 
 1. Fork the repository.
 2. Create a new feature branch.
 3. Make your changes.
-4. Submit a Pull Request.
+4. Test your implementation.
+5. Submit a Pull Request.
 
 ---
 
-## ❤️ Support the Project
-
-If you find this project useful, consider giving the repositories a ⭐ on GitHub.
+## 🔗 15. Official Project Links
 
 <p align="center">
+  <b>🤖 SAHAYAK AI – CUSTOMER PORTAL</b>
+  <br/>
+  <a href="https://sahayak-ai-customer-website.vercel.app/">🌐 Live Website</a>
+  &nbsp; | &nbsp;
+  <a href="https://github.com/jayasankartanguturi/SAHAYAK-AI-CUSTOMER-WEBSITE">💻 GitHub Repository</a>
+</p>
+
+<p align="center">
+  <b>🏢 SAHAYAK B2B – BUSINESS PORTAL</b>
+  <br/>
+  <a href="https://sahayak-b2b.netlify.app/">🌐 Live Website</a>
+  &nbsp; | &nbsp;
+  <a href="https://github.com/venkatavarshith999/SAHAYAK-B2B">💻 GitHub Repository</a>
+</p>
+
+---
+
+## ⭐ Support the Project
+
+If you find Sahayak AI useful, support the project by visiting the live platforms and giving the GitHub repositories a star.
+
+<p align="center">
+  <a href="https://github.com/jayasankartanguturi/SAHAYAK-AI-CUSTOMER-WEBSITE">
+    <img src="https://img.shields.io/badge/⭐_Star_Sahayak_AI-GitHub-754CE7?style=for-the-badge&logo=github" alt="Star Sahayak AI"/>
+  </a>
   <a href="https://github.com/venkatavarshith999/SAHAYAK-B2B">
-    <img src="https://img.shields.io/badge/⭐_Star_Sahayak_B2B-GitHub-252344?style=for-the-badge&logo=github"/>
+    <img src="https://img.shields.io/badge/⭐_Star_Sahayak_B2B-GitHub-252344?style=for-the-badge&logo=github" alt="Star Sahayak B2B"/>
   </a>
 </p>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=18&pause=1000&color=754CE7&center=true&vCenter=true&width=700&lines=Innovation+Meets+Intelligence;Technology+for+Everyone;One+Connected+Sahayak+Ecosystem+%F0%9F%9A%80" alt="Footer Animation"/>
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=18&pause=1000&color=754CE7&center=true&vCenter=true&width=700&lines=Innovation+Meets+Intelligence;Technology+for+Everyone;One+Connected+Sahayak+Ecosystem+%F0%9F%9A%80" alt="Sahayak Footer Animation"/>
 </p>
 
 <p align="center">
-  <b>🌟 SAHAYAK AI + SAHAYAK B2B 🌟</b>
+  <b>🌟 SAHAYAK AI × SAHAYAK B2B 🌟</b>
   <br/>
   AI Assistance • Business Connectivity • Digital Empowerment
   <br/><br/>
-  <a href="https://sahayak-ai-customer-website.vercel.app/">Customer Portal</a>
-  &nbsp; | &nbsp;
-  <a href="https://sahayak-b2b.netlify.app/">B2B Portal</a>
-  &nbsp; | &nbsp;
-  <a href="https://github.com/venkatavarshith999/SAHAYAK-B2B">B2B GitHub</a>
-</p>
-
----
-
-<p align="center">
   <i>Building useful technology for people, professions, and businesses.</i>
 </p>
