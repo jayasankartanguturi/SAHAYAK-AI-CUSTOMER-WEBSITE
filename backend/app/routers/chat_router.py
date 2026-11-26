@@ -6,12 +6,17 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 
 from ..auth import get_current_user
 from ..database import db_manager
-from ..gemini_service import generate_chat_answer, generate_conversation_title
+from ..gemini_service import (
+    generate_chat_answer,
+    generate_conversation_title,
+    translate_text,
+)
 from ..schemas import (
     ChatRequest,
     ConversationCreate,
     ConversationMessageCreate,
     ConversationRename,
+    TranslateRequest,
     VoiceRequest,
 )
 
@@ -165,6 +170,15 @@ def voice_assist(payload: VoiceRequest, current_user: dict = Depends(get_current
     return generate_chat_answer(
         query=payload.transcript.strip(),
         language=payload.language,
+        profession=payload.profession,
+    )
+
+
+@router.post("/api/translate")
+def translate_endpoint(payload: TranslateRequest, current_user: dict = Depends(get_current_user)):
+    return translate_text(
+        text=payload.text,
+        target_language=payload.target_language,
         profession=payload.profession,
     )
 

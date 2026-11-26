@@ -85,6 +85,12 @@ class VoiceRequest(BaseModel):
     profession: str = "Farmer"
 
 
+class TranslateRequest(BaseModel):
+    text: str = Field(..., min_length=1, max_length=4000)
+    target_language: str = Field(default="Telugu", max_length=40)
+    profession: str = Field(default="General Citizen", max_length=60)
+
+
 class EligibilityRequest(BaseModel):
     profession: str
     annual_income: int = Field(..., ge=0)

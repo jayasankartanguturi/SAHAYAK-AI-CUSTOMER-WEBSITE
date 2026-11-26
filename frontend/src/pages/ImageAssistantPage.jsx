@@ -51,7 +51,7 @@ export default function ImageAssistantPage() {
           <label className="block border-2 border-dashed border-[#D8D2F0] hover:border-[#7650E8] rounded-2xl p-6 text-center cursor-pointer bg-[#FAF9FF] transition-colors">
             <input
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png,image/webp,image/gif"
               onChange={handleFileChange}
               className="hidden"
             />
@@ -101,7 +101,13 @@ export default function ImageAssistantPage() {
           </h3>
           {result ? (
             <div className="space-y-3">
-              <div className="p-4 rounded-2xl bg-[#FAF9FF] border border-[#ECEAF6] text-[13.5px] text-[#171638] whitespace-pre-line leading-relaxed">
+              <div
+                className={`p-4 rounded-2xl border text-[13.5px] whitespace-pre-line leading-relaxed ${
+                  result.isError
+                    ? 'bg-red-50 border-red-200 text-red-800'
+                    : 'bg-[#FAF9FF] border-[#ECEAF6] text-[#171638]'
+                }`}
+              >
                 {result.analysis.replace(/[#*]/g, '')}
               </div>
               <div className="flex items-start gap-2 text-[11.5px] text-[#85839A] bg-[#F1EFF8] p-3 rounded-xl">

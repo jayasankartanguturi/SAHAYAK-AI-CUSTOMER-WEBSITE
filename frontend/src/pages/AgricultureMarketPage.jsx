@@ -53,7 +53,7 @@ export default function AgricultureMarketPage() {
 
   const [selectedState, setSelectedState] = useState('Andhra Pradesh');
   const [selectedMarket, setSelectedMarket] = useState('');
-  const [commodityQuery, setCommodityQuery] = useState('Dry Chillies');
+  const [commodityQuery, setCommodityQuery] = useState('');
 
   const [pricesData, setPricesData] = useState(null);
   const [compareData, setCompareData] = useState(null);
@@ -302,7 +302,9 @@ export default function AgricultureMarketPage() {
             </div>
             <div>
               <h3 className="text-[15.5px] font-bold text-[#171638]">
-                Live Mandi Price Feed Configuration Needed
+                {pricesData.source_status === 'api_key_required' || pricesData.source_status === 'invalid_api_key'
+                  ? 'Live Mandi Price Feed Configuration Needed'
+                  : 'Live Agmarknet Price Feed Temporarily Unavailable'}
               </h3>
               <p className="text-[13px] text-[#4E4C6A] mt-1 leading-relaxed">
                 {pricesData.message}

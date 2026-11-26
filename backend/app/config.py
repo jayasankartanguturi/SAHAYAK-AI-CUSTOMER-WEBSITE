@@ -20,9 +20,10 @@ class Settings:
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development").strip().lower()
     IS_PRODUCTION: bool = ENVIRONMENT == "production"
 
-    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
-    GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
-    GEMINI_TIMEOUT_SECONDS: int = int(os.getenv("GEMINI_TIMEOUT_SECONDS", "30"))
+    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "").strip()
+    GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite").strip() or "gemini-3.5-flash-lite"
+    GEMINI_VISION_MODEL: str = os.getenv("GEMINI_VISION_MODEL", "").strip() or GEMINI_MODEL
+    GEMINI_TIMEOUT_SECONDS: int = int(os.getenv("GEMINI_TIMEOUT_SECONDS", "45"))
 
     MONGODB_URI: str = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
     MONGODB_DB_NAME: str = os.getenv("MONGODB_DB_NAME", "sahayak_ai")
@@ -32,7 +33,7 @@ class Settings:
     JWT_ALGORITHM: str = os.getenv("JWT_ALGORITHM", "HS256")
     JWT_EXPIRE_MINUTES: int = int(os.getenv("JWT_EXPIRE_MINUTES", "1440"))
 
-    DATA_GOV_API_KEY: str = os.getenv("DATA_GOV_API_KEY", "")
+    DATA_GOV_API_KEY: str = os.getenv("DATA_GOV_API_KEY", "").strip()
     ADMIN_API_KEY: str = os.getenv("ADMIN_API_KEY", _DEFAULT_ADMIN_KEY)
     GOOGLE_CLIENT_ID: str = os.getenv("GOOGLE_CLIENT_ID", "")
 

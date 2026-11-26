@@ -19,12 +19,8 @@ export default function LanguageTranslationPage() {
     e.preventDefault();
     if (!sourceText.trim() || loading) return;
     setLoading(true);
-    const res = await api.chat(
-      `Translate and explain this clearly in ${targetLang}: "${sourceText}"`,
-      targetLang,
-      selectedProfession
-    );
-    setTranslated(res.answer);
+    const res = await api.translate(sourceText, targetLang, selectedProfession);
+    setTranslated(res.translated || '');
     setLoading(false);
   };
 

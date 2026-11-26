@@ -1,4 +1,11 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
+function resolveApiBase() {
+  const raw = (import.meta.env.VITE_API_BASE_URL || '/api').trim().replace(/\/+$/, '');
+  if (!raw) return '/api';
+  if (raw === '/api' || raw.endsWith('/api')) return raw;
+  return `${raw}/api`;
+}
+
+const API_BASE = resolveApiBase();
 
 function getAuthHeaders() {
   const token = localStorage.getItem('sahayak_token');
@@ -6,20 +13,24 @@ function getAuthHeaders() {
 }
 
 async function request(path, options = {}) {
+  const { timeoutMs = 25000, ...fetchOptions } = options;
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 20000);
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const res = await fetch(`${API_BASE}${path}`, {
-      ...options,
+      ...fetchOptions,
       signal: controller.signal,
       headers: {
         ...getAuthHeaders(),
-        ...(options.headers || {}),
+        ...(fetchOptions.headers || {}),
       },
     });
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.detail || `Request failed (${res.status})`);
+      const errBody = await res.json().catch(() => ({}));
+      const error = new Error(errBody.detail || `Request failed (${res.status})`);
+      error.status = res.status;
+      error.isHttpError = true;
+      throw error;
     }
     return await res.json();
   } finally {
@@ -186,14 +197,14 @@ export const api = {
     const qs = new URLSearchParams(
       Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== '')
     ).toString();
-    return request(`/agriculture/prices${qs ? `?${qs}` : ''}`);
+    return request(`/agriculture/prices${qs ? `?${qs}` : ''}`, { timeoutMs: 35000 });
   },
 
   compareAgriculturePrices: (params = {}) => {
     const qs = new URLSearchParams(
       Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== '')
     ).toString();
-    return request(`/agriculture/compare${qs ? `?${qs}` : ''}`);
+    return request(`/agriculture/compare${qs ? `?${qs}` : ''}`, { timeoutMs: 35000 });
   },
 
   chat: async (message, language, profession, docId = null, conversationId = null) => {
@@ -201,6 +212,7 @@ export const api = {
       return await request('/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        timeoutMs: 45000,
         body: JSON.stringify({
           message,
           language,
@@ -209,7 +221,15 @@ export const api = {
           conversation_id: conversationId,
         }),
       });
-    } catch {
+    } catch (err) {
+      if (err?.isHttpError && err.status === 401) {
+        return {
+          answer: 'Please sign in to your Sahayak AI account to continue.',
+          sources: [],
+          mode: 'error',
+          isError: true,
+        };
+      }
       return {
         answer:
           `### Sahayak AI Guidance (${profession} • ${language})\n\n` +
@@ -238,10 +258,52 @@ export const api = {
       return await request('/voice/assist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        timeoutMs: 45000,
         body: JSON.stringify({ transcript, language, profession }),
       });
-    } catch {
+    } catch (err) {
+      if (err?.isHttpError && err.status === 401) {
+        return {
+          answer: 'Please sign in to your Sahayak AI account to use Voice Assistant.',
+          mode: 'error',
+          isError: true,
+        };
+      }
       return api.chat(transcript, language, profession);
+    }
+  },
+
+  translate: async (text, targetLanguage, profession) => {
+    try {
+      return await request('/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        timeoutMs: 45000,
+        body: JSON.stringify({
+          text,
+          target_language: targetLanguage,
+          profession,
+        }),
+      });
+    } catch (err) {
+      if (err?.isHttpError && err.status === 401) {
+        return {
+          translated: 'Please sign in to your Sahayak AI account to use Language & Translation.',
+          mode: 'error',
+          isError: true,
+        };
+      }
+      // Fallback to /chat if backend hasn't been redeployed with /translate yet
+      const res = await api.chat(
+        `Translate and explain this clearly in ${targetLanguage}: "${text}"`,
+        targetLanguage,
+        profession
+      );
+      return {
+        translated: res.answer,
+        target_language: targetLanguage,
+        mode: res.mode || 'fallback',
+      };
     }
   },
 
@@ -252,13 +314,33 @@ export const api = {
     form.append('language', language);
     form.append('profession', profession);
     try {
-      return await request('/image/analyze', { method: 'POST', body: form });
-    } catch {
+      return await request('/image/analyze', {
+        method: 'POST',
+        body: form,
+        timeoutMs: 60000,
+      });
+    } catch (err) {
+      // Surface real backend HTTP 4xx errors (auth required, invalid file type/size, rate limit)
+      // instead of hiding them behind the offline demo fallback.
+      if (err?.isHttpError && err.status >= 400 && err.status < 500) {
+        const message =
+          err.status === 401
+            ? 'Please sign in to your Sahayak AI account to use live Image Analysis.'
+            : err.message || 'Image could not be processed. Please upload a valid JPG, PNG, WEBP, or GIF image under 10 MB.';
+        return {
+          analysis: message,
+          mode: 'error',
+          isError: true,
+          status: err.status,
+          disclaimer: 'Visual AI analysis may contain inaccuracies; verify critical decisions with an expert.',
+        };
+      }
       return {
         analysis:
           `### Image Analysis (Offline Demo Fallback)\n\n` +
           `File **${file.name}** (${Math.max(1, Math.round(file.size / 1024))} KB) selected.\n\n` +
-          `1. Start the FastAPI backend and configure \`GEMINI_API_KEY\` in \`backend/.env\` for live Gemini Vision analysis.\n` +
+          `Live Image Analysis service is temporarily unreachable (${err?.name === 'AbortError' ? 'request timed out' : 'network/server unavailable'}).\n\n` +
+          `1. Please check your connection and try again in a few moments.\n` +
           `2. For crop leaf photos, consult your local Krishi Vigyan Kendra (KVK) before applying treatments.`,
         mode: 'frontend-fallback',
         disclaimer: 'Visual AI analysis may contain inaccuracies; verify critical decisions with an expert.',
@@ -271,16 +353,30 @@ export const api = {
     form.append('file', file);
     form.append('language', language);
     try {
-      return await request('/documents/upload', { method: 'POST', body: form });
-    } catch {
+      return await request('/documents/upload', {
+        method: 'POST',
+        body: form,
+        timeoutMs: 60000,
+      });
+    } catch (err) {
+      if (err?.isHttpError && err.status >= 400 && err.status < 500) {
+        return {
+          isError: true,
+          status: err.status,
+          error:
+            err.status === 401
+              ? 'Please sign in to your Sahayak AI account to upload and analyze documents.'
+              : err.message || 'Document could not be processed. Upload a valid PDF, TXT, MD, or CSV file.',
+        };
+      }
       return {
         id: `local-${Date.now()}`,
         filename: file.name,
         pages: 1,
         size_kb: Math.max(1, Math.round(file.size / 1024)),
         chunk_count: 1,
-        preview: `Uploaded locally (${file.name}). Start the FastAPI backend for PyMuPDF text extraction and RAG indexing.`,
-        summary: `Offline demo summary for ${file.name}. Start the FastAPI backend for PyMuPDF extraction & Gemini summary.`,
+        preview: `Uploaded locally (${file.name}). Document analysis service is temporarily unreachable.`,
+        summary: `Offline demo summary for ${file.name}. Live backend is temporarily unreachable; please retry shortly.`,
         uploaded_at: new Date().toISOString(),
       };
     }
@@ -291,9 +387,17 @@ export const api = {
       return await request(`/documents/${docId}/ask`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        timeoutMs: 45000,
         body: JSON.stringify({ message, language, profession }),
       });
-    } catch {
+    } catch (err) {
+      if (err?.isHttpError && err.status === 401) {
+        return {
+          answer: 'Please sign in to your Sahayak AI account to ask questions about your documents.',
+          mode: 'error',
+          isError: true,
+        };
+      }
       return api.chat(message, language, profession, docId);
     }
   },

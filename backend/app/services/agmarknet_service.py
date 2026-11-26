@@ -1,4 +1,6 @@
 import logging
+import re
+import threading
 import time
 from datetime import datetime, timezone
 from typing import Any, Optional
@@ -22,8 +24,9 @@ AGMARKNET_HEADERS = {
 }
 
 DATA_GOV_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
-    "Accept": "application/json",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "en-IN,en;q=0.9",
 }
 
 CATALOG_TTL_SECONDS = 12 * 60 * 60  # 12 hours
@@ -31,6 +34,7 @@ PRICE_CACHE_TTL_SECONDS = 15 * 60   # 15 minutes
 
 _catalog_cache: dict[str, Any] = {"fetched_at": 0.0, "data": None}
 _price_cache: dict[str, dict[str, Any]] = {}
+_price_fetch_lock = threading.Lock()
 
 
 def _parse_numeric_price(raw: Any) -> Optional[float]:
@@ -203,103 +207,93 @@ def _persist_price_records(records: list[dict[str, Any]]) -> None:
             logger.debug("agriculture_prices upsert warning: %s", exc)
 
 
-def fetch_agriculture_prices(
-    state: Optional[str] = None,
-    commodity: Optional[str] = None,
-    market: Optional[str] = None,
-    district: Optional[str] = None,
+def _load_persisted_price_records(
+    state: str = "",
+    district: str = "",
+    market: str = "",
+    commodity: str = "",
     limit: int = 50,
-    force_refresh: bool = False,
-) -> dict[str, Any]:
-    """
-    Fetches real reported Agmarknet mandi prices via the official data.gov.in
-    Agmarknet API (Priority 1). Never returns fabricated/sample prices as live data.
-    """
-    state_clean = (state or "").strip()
-    commodity_clean = (commodity or "").strip()
-    market_clean = (market or "").strip()
-    district_clean = (district or "").strip()
-    safe_limit = max(1, min(int(limit), 100))
-
-    cache_key = f"{state_clean.lower()}|{district_clean.lower()}|{market_clean.lower()}|{commodity_clean.lower()}|{safe_limit}"
-    now = time.time()
-
-    if not force_refresh and cache_key in _price_cache:
-        entry = _price_cache[cache_key]
-        if (now - entry["cached_at"]) < PRICE_CACHE_TTL_SECONDS:
-            resp_copy = dict(entry["payload"])
-            resp_copy["cached"] = True
-            return resp_copy
-
-    if not settings.DATA_GOV_API_KEY:
-        return {
-            "available": False,
-            "source_status": "api_key_required",
-            "source": "Agmarknet / Open Government Data (data.gov.in)",
-            "unit": "INR per quintal",
-            "cached": False,
-            "fetched_at": datetime.now(timezone.utc).isoformat(),
-            "message": (
-                "Live Agmarknet price retrieval requires a free DATA_GOV_API_KEY in backend/.env. "
-                "Agmarknet 2.0's web report now enforces CAPTCHA verification, so the official "
-                "data.gov.in Agmarknet API is used for reliable live prices without inventing sample data."
-            ),
-            "items": [],
-            "total": 0,
-        }
-
-    params: dict[str, Any] = {
-        "api-key": settings.DATA_GOV_API_KEY,
-        "format": "json",
-        "limit": safe_limit,
-    }
-    if state_clean:
-        params["filters[state]"] = state_clean
-    if district_clean:
-        params["filters[district]"] = district_clean
-    if market_clean:
-        params["filters[market]"] = market_clean
-    if commodity_clean:
-        params["filters[commodity]"] = commodity_clean
-
+) -> list[dict[str, Any]]:
+    """Loads previously persisted real Agmarknet records from MongoDB when live API is unreachable."""
     try:
-        with httpx.Client(timeout=15.0) as client:
-            resp = client.get(DATA_GOV_BASE_URL, params=params, headers=DATA_GOV_HEADERS)
-            if resp.status_code in (401, 403):
-                raise PermissionError("DATA_GOV_API_KEY was rejected by data.gov.in.")
-            resp.raise_for_status()
-            body = resp.json()
-    except PermissionError as exc:
-        logger.warning("data.gov.in auth error: %s", exc)
-        return {
-            "available": False,
-            "source_status": "invalid_api_key",
-            "source": "Agmarknet (api.data.gov.in)",
-            "unit": "INR per quintal",
-            "cached": False,
-            "fetched_at": datetime.now(timezone.utc).isoformat(),
-            "message": "Your DATA_GOV_API_KEY was rejected by data.gov.in. Verify the key in backend/.env.",
-            "items": [],
-            "total": 0,
-        }
+        col = db_manager.collection("agriculture_prices")
+        docs = list(col.find({}))
     except Exception as exc:
-        logger.warning("data.gov.in Agmarknet request failed: %s", exc)
-        return {
-            "available": False,
-            "source_status": "upstream_unavailable",
-            "source": "Agmarknet (api.data.gov.in)",
-            "unit": "INR per quintal",
-            "cached": False,
-            "fetched_at": datetime.now(timezone.utc).isoformat(),
-            "message": "Agmarknet price service is temporarily unreachable. Please try refreshing in a moment.",
-            "items": [],
-            "total": 0,
-        }
+        logger.debug("agriculture_prices read warning: %s", exc)
+        return []
 
-    raw_records = body.get("records") or []
-    fetched_iso = datetime.now(timezone.utc).isoformat()
+    st_q = state.lower()
+    dist_q = district.lower()
+    mkt_q = market.lower()
+    cmdt_q = commodity.lower()
+
+    matched: list[dict[str, Any]] = []
+    for d in docs:
+        d.pop("_id", None)
+        if st_q and st_q not in (d.get("state") or "").lower():
+            continue
+        if dist_q and dist_q not in (d.get("district") or "").lower():
+            continue
+        if mkt_q and mkt_q not in (d.get("market") or "").lower():
+            continue
+        if cmdt_q and cmdt_q not in (d.get("commodity") or "").lower():
+            continue
+        matched.append(d)
+
+    matched.sort(key=lambda x: x.get("last_fetched_at") or "", reverse=True)
+    return matched[:limit]
+
+
+def _query_data_gov_records(params: dict[str, Any]) -> tuple[list[dict[str, Any]], Optional[str]]:
+    """
+    Calls data.gov.in Agmarknet endpoint with retry & backoff.
+    Raises PermissionError on 401/403; raises RuntimeError with safe error summary on failure.
+    """
+    last_err: Optional[str] = None
+    timeout = httpx.Timeout(20.0, connect=10.0)
+
+    for attempt in range(2):
+        try:
+            with httpx.Client(timeout=timeout, follow_redirects=True) as client:
+                resp = client.get(DATA_GOV_BASE_URL, params=params, headers=DATA_GOV_HEADERS)
+                if resp.status_code in (401, 403):
+                    raise PermissionError(f"DATA_GOV_API_KEY rejected (HTTP {resp.status_code}).")
+                if resp.status_code >= 500 or resp.status_code == 429:
+                    last_err = f"HTTP {resp.status_code}"
+                    if attempt == 0:
+                        time.sleep(0.8)
+                        continue
+                    resp.raise_for_status()
+                resp.raise_for_status()
+                body = resp.json()
+                return (body.get("records") or []), None
+        except PermissionError:
+            raise
+        except Exception as exc:
+            last_err = type(exc).__name__
+            logger.warning(
+                "data.gov.in Agmarknet attempt %d failed (%s): %s",
+                attempt + 1,
+                type(exc).__name__,
+                str(exc)[:200],
+            )
+            if attempt == 0:
+                time.sleep(0.6)
+                continue
+            raise RuntimeError(last_err) from exc
+
+    raise RuntimeError(last_err or "UpstreamError")
+
+
+def _normalize_records(
+    raw_records: list[dict[str, Any]],
+    state_clean: str,
+    district_clean: str,
+    market_clean: str,
+    commodity_clean: str,
+    fetched_iso: str,
+) -> list[dict[str, Any]]:
     items: list[dict[str, Any]] = []
-
     for r in raw_records:
         min_p = _parse_numeric_price(r.get("min_price"))
         max_p = _parse_numeric_price(r.get("max_price"))
@@ -321,27 +315,170 @@ def fetch_agriculture_prices(
                 "last_fetched_at": fetched_iso,
             }
         )
+    return items
 
-    _persist_price_records(items)
 
-    payload = {
-        "available": True,
-        "source_status": "live",
-        "source": "Agmarknet (api.data.gov.in)",
-        "unit": "INR per quintal",
-        "cached": False,
-        "fetched_at": fetched_iso,
-        "message": (
-            f"Found {len(items)} reported mandi price record(s)."
-            if items
-            else "No mandi prices were reported for this exact filter combination. Try broadening the market or commodity."
-        ),
-        "items": items,
-        "total": len(items),
-    }
+def fetch_agriculture_prices(
+    state: Optional[str] = None,
+    commodity: Optional[str] = None,
+    market: Optional[str] = None,
+    district: Optional[str] = None,
+    limit: int = 50,
+    force_refresh: bool = False,
+) -> dict[str, Any]:
+    """
+    Fetches real reported Agmarknet mandi prices via the official data.gov.in
+    Agmarknet API (Priority 1), with MongoDB last-synced real-record fallback
+    when data.gov.in is temporarily unreachable. Never returns fabricated prices.
+    """
+    state_clean = (state or "").strip()
+    commodity_clean = (commodity or "").strip()
+    market_clean = (market or "").strip()
+    district_clean = (district or "").strip()
+    safe_limit = max(1, min(int(limit), 100))
 
-    _price_cache[cache_key] = {"cached_at": now, "payload": payload}
-    return payload
+    # Share cache across /prices and /compare by keying on filters (always fetching up to 100)
+    cache_key = f"{state_clean.lower()}|{district_clean.lower()}|{market_clean.lower()}|{commodity_clean.lower()}"
+
+    with _price_fetch_lock:
+        now = time.time()
+        if not force_refresh and cache_key in _price_cache:
+            entry = _price_cache[cache_key]
+            if (now - entry["cached_at"]) < PRICE_CACHE_TTL_SECONDS:
+                resp_copy = dict(entry["payload"])
+                resp_copy["items"] = resp_copy["items"][:safe_limit]
+                resp_copy["total"] = len(resp_copy["items"])
+                resp_copy["cached"] = True
+                return resp_copy
+
+        if not settings.DATA_GOV_API_KEY:
+            return {
+                "available": False,
+                "source_status": "api_key_required",
+                "source": "Agmarknet / Open Government Data (data.gov.in)",
+                "unit": "INR per quintal",
+                "cached": False,
+                "fetched_at": datetime.now(timezone.utc).isoformat(),
+                "message": (
+                    "Live Agmarknet price retrieval requires a free DATA_GOV_API_KEY in backend environment variables. "
+                    "Agmarknet 2.0's web report enforces CAPTCHA verification, so the official "
+                    "data.gov.in Agmarknet API is used for reliable live prices without inventing sample data."
+                ),
+                "items": [],
+                "total": 0,
+            }
+
+        params: dict[str, Any] = {
+            "api-key": settings.DATA_GOV_API_KEY,
+            "format": "json",
+            "limit": 100,
+        }
+        if state_clean:
+            params["filters[state]"] = state_clean
+        if district_clean:
+            params["filters[district]"] = district_clean
+        if market_clean:
+            params["filters[market]"] = market_clean
+        if commodity_clean:
+            params["filters[commodity]"] = commodity_clean
+
+        try:
+            raw_records, _ = _query_data_gov_records(params)
+
+            # If exact commodity name returned 0 records (e.g. "Dry Chillies" vs "Chilli Red"),
+            # broaden within the selected state/market and match case-insensitively by token.
+            if not raw_records and commodity_clean and (state_clean or market_clean or district_clean):
+                broad_params = {k: v for k, v in params.items() if k != "filters[commodity]"}
+                broad_records, _ = _query_data_gov_records(broad_params)
+                tokens = [tok for tok in re.split(r"[\s(),/-]+", commodity_clean.lower()) if len(tok) >= 3]
+                if broad_records and tokens:
+                    raw_records = [
+                        r for r in broad_records
+                        if any(tok in (r.get("commodity") or "").lower() for tok in tokens)
+                    ]
+        except PermissionError as exc:
+            logger.warning("data.gov.in auth error: %s", exc)
+            return {
+                "available": False,
+                "source_status": "invalid_api_key",
+                "source": "Agmarknet (api.data.gov.in)",
+                "unit": "INR per quintal",
+                "cached": False,
+                "fetched_at": datetime.now(timezone.utc).isoformat(),
+                "message": "Your DATA_GOV_API_KEY was rejected by data.gov.in. Verify the key in backend environment variables.",
+                "items": [],
+                "total": 0,
+            }
+        except Exception as exc:
+            err_summary = str(exc) or type(exc).__name__
+            persisted = _load_persisted_price_records(
+                state=state_clean,
+                district=district_clean,
+                market=market_clean,
+                commodity=commodity_clean,
+                limit=safe_limit,
+            )
+            if persisted:
+                return {
+                    "available": True,
+                    "source_status": "cached_db",
+                    "source": "Agmarknet (Last Synced Snapshot)",
+                    "unit": "INR per quintal",
+                    "cached": True,
+                    "fetched_at": persisted[0].get("last_fetched_at") or datetime.now(timezone.utc).isoformat(),
+                    "message": (
+                        f"Showing {len(persisted)} last-synced real Agmarknet record(s) while "
+                        f"api.data.gov.in is temporarily unreachable ({err_summary})."
+                    ),
+                    "items": persisted,
+                    "total": len(persisted),
+                }
+            return {
+                "available": False,
+                "source_status": "upstream_unavailable",
+                "upstream_error": err_summary,
+                "source": "Agmarknet (api.data.gov.in)",
+                "unit": "INR per quintal",
+                "cached": False,
+                "fetched_at": datetime.now(timezone.utc).isoformat(),
+                "message": "Agmarknet price service is temporarily unreachable. Please try refreshing in a moment.",
+                "items": [],
+                "total": 0,
+            }
+
+        fetched_iso = datetime.now(timezone.utc).isoformat()
+        items = _normalize_records(
+            raw_records,
+            state_clean=state_clean,
+            district_clean=district_clean,
+            market_clean=market_clean,
+            commodity_clean=commodity_clean,
+            fetched_iso=fetched_iso,
+        )
+        _persist_price_records(items)
+
+        full_payload = {
+            "available": True,
+            "source_status": "live",
+            "source": "Agmarknet (api.data.gov.in)",
+            "unit": "INR per quintal",
+            "cached": False,
+            "fetched_at": fetched_iso,
+            "message": (
+                f"Found {len(items)} reported mandi price record(s)."
+                if items
+                else "No mandi prices were reported for this exact filter combination today. Try clearing the crop filter or selecting another commodity."
+            ),
+            "items": items,
+            "total": len(items),
+        }
+
+        _price_cache[cache_key] = {"cached_at": time.time(), "payload": full_payload}
+
+        sliced = dict(full_payload)
+        sliced["items"] = items[:safe_limit]
+        sliced["total"] = len(sliced["items"])
+        return sliced
 
 
 def compare_commodity_markets(

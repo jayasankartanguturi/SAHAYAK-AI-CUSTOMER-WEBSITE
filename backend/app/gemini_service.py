@@ -120,41 +120,41 @@ def detect_query_language(text: str) -> str:
     return "English"
 
 
+def _candidate_models(primary: str) -> list[str]:
+    models: list[str] = []
+    for candidate in (
+        primary,
+        settings.GEMINI_MODEL,
+        "gemini-3.5-flash-lite",
+        "gemini-3.5-flash",
+        "gemini-3.8-flash",
+        "gemini-3.1-flash-lite",
+        "gemini-2.5-flash",
+    ):
+        name = (candidate or "").strip()
+        if name and name not in models:
+            models.append(name)
+    return models
+
+
+def _extract_response_text(response) -> Optional[str]:
+    text = getattr(response, "text", None)
+    if text and text.strip():
+        return text.strip()
+    candidates = getattr(response, "candidates", None) or []
+    parts_out: list[str] = []
+    for cand in candidates:
+        content = getattr(cand, "content", None)
+        parts = getattr(content, "parts", None) or []
+        for part in parts:
+            part_text = getattr(part, "text", None)
+            if part_text:
+                parts_out.append(part_text)
+    joined = "\n".join(parts_out).strip()
+    return joined or None
+
+
 def _call_gemini_text(prompt: str) -> Optional[str]:
-    if not settings.GEMINI_API_KEY:
-        return None
-    try:
-        from google import genai
-        from google.genai import types
-
-        timeout_ms = max(12000, settings.GEMINI_TIMEOUT_SECONDS * 1000)
-        client = genai.Client(
-            api_key=settings.GEMINI_API_KEY,
-            http_options=types.HttpOptions(timeout=timeout_ms),
-        )
-        models_to_try = [settings.GEMINI_MODEL]
-        for fallback in ("gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-2.5-flash-lite"):
-            if fallback not in models_to_try:
-                models_to_try.append(fallback)
-
-        for model_name in models_to_try:
-            try:
-                response = client.models.generate_content(
-                    model=model_name,
-                    contents=prompt,
-                )
-                if response.text:
-                    return response.text
-            except Exception as exc:
-                logger.warning("Gemini model %s failed: %s", model_name, exc)
-                continue
-        return None
-    except Exception as exc:
-        logger.warning("Gemini API setup failed, falling back to RAG response: %s", exc)
-        return None
-
-
-def _call_gemini_vision(prompt: str, image_bytes: bytes, mime_type: str) -> Optional[str]:
     if not settings.GEMINI_API_KEY:
         return None
     try:
@@ -166,17 +166,74 @@ def _call_gemini_vision(prompt: str, image_bytes: bytes, mime_type: str) -> Opti
             api_key=settings.GEMINI_API_KEY,
             http_options=types.HttpOptions(timeout=timeout_ms),
         )
-        response = client.models.generate_content(
-            model=settings.GEMINI_MODEL,
-            contents=[
-                types.Part.from_bytes(data=image_bytes, mime_type=mime_type),
-                prompt,
-            ],
-        )
-        return response.text
-    except Exception as exc:
-        logger.warning("Gemini Vision call failed: %s", exc)
+        for model_name in _candidate_models(settings.GEMINI_MODEL):
+            try:
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=prompt,
+                )
+                text = _extract_response_text(response)
+                if text:
+                    return text
+            except Exception as exc:
+                logger.warning("Gemini text model %s failed: %s: %s", model_name, type(exc).__name__, exc)
+                continue
         return None
+    except Exception as exc:
+        logger.warning("Gemini API setup failed, falling back to RAG response: %s: %s", type(exc).__name__, exc)
+        return None
+
+
+def _call_gemini_vision(prompt: str, image_bytes: bytes, mime_type: str) -> tuple[Optional[str], Optional[str], Optional[str]]:
+    if not settings.GEMINI_API_KEY:
+        logger.warning("Gemini Vision skipped: GEMINI_API_KEY is not configured.")
+        return None, None, "GEMINI_API_KEY not configured"
+    try:
+        from google import genai
+        from google.genai import types
+
+        timeout_ms = max(25000, settings.GEMINI_TIMEOUT_SECONDS * 1000)
+        client = genai.Client(
+            api_key=settings.GEMINI_API_KEY,
+            http_options=types.HttpOptions(timeout=timeout_ms),
+        )
+        image_part = types.Part.from_bytes(data=image_bytes, mime_type=mime_type)
+        last_error: Optional[str] = None
+
+        for model_name in _candidate_models(settings.GEMINI_VISION_MODEL):
+            try:
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=[image_part, prompt],
+                )
+                text = _extract_response_text(response)
+                if text:
+                    return text, model_name, None
+                last_error = f"{model_name} returned empty response"
+                logger.warning("Gemini Vision model %s returned empty text.", model_name)
+            except Exception as exc:
+                err_text = str(exc)
+                last_error = f"{type(exc).__name__}"
+                if "401" in err_text or "UNAUTHENTICATED" in err_text or "API_KEY_INVALID" in err_text:
+                    logger.error(
+                        "Gemini Vision authentication failed on model %s (check GEMINI_API_KEY validity): %s",
+                        model_name,
+                        type(exc).__name__,
+                    )
+                    return None, None, "Gemini API authentication failed"
+                logger.warning(
+                    "Gemini Vision model %s failed (mime=%s, bytes=%s): %s: %s",
+                    model_name,
+                    mime_type,
+                    len(image_bytes),
+                    type(exc).__name__,
+                    err_text[:240],
+                )
+                continue
+        return None, None, last_error or "All Gemini Vision models failed"
+    except Exception as exc:
+        logger.warning("Gemini Vision setup failed: %s: %s", type(exc).__name__, exc)
+        return None, None, type(exc).__name__
 
 
 def _casual_reply(intent: str, query: str, language: str, profession: str) -> str:
@@ -448,6 +505,38 @@ def generate_chat_answer(
     }
 
 
+def translate_text(
+    text: str,
+    target_language: str = "Telugu",
+    profession: str = "General Citizen",
+) -> dict:
+    """Translates and explains user text clearly into the target Indian/English language."""
+    cleaned = text.strip()
+    prompt = (
+        f"You are Sahayak AI, a clear multilingual translator for {profession}s in India.\n"
+        f"Translate the following text accurately into natural, easy-to-read {target_language}. "
+        f"Then add 1-2 short bullet points explaining any important terms or action steps in {target_language}.\n"
+        f"Do not mention missing knowledge bases or unrelated schemes.\n\n"
+        f"Text to translate:\n\"{cleaned}\""
+    )
+    ai_text = _call_gemini_text(prompt)
+    if ai_text:
+        return {
+            "translated": ai_text,
+            "target_language": target_language,
+            "mode": "live-gemini",
+        }
+    return {
+        "translated": (
+            f"Translation to {target_language} is temporarily unavailable because the live AI model did not respond.\n\n"
+            f"Original text:\n{cleaned}\n\n"
+            f"Please try again in a moment."
+        ),
+        "target_language": target_language,
+        "mode": "fallback",
+    }
+
+
 def summarize_document_text(filename: str, extracted_text: str, language: str = "English") -> dict:
     snippet = extracted_text[:4500]
     prompt = (
@@ -484,7 +573,7 @@ def analyze_image_content(
         f"If it shows a document or receipt, summarize key fields clearly without inventing unreadable text. "
         f"User prompt: {prompt}"
     )
-    ai_text = _call_gemini_vision(full_prompt, image_bytes, mime_type)
+    ai_text, model_used, fallback_reason = _call_gemini_vision(full_prompt, image_bytes, mime_type)
     mode = "live-gemini-vision" if ai_text else "demo-vision"
 
     if not ai_text:
@@ -524,5 +613,7 @@ def analyze_image_content(
     return {
         "analysis": ai_text,
         "mode": mode,
+        "model": model_used,
+        "fallback_reason": None if ai_text else fallback_reason,
         "disclaimer": "Visual AI analysis may contain inaccuracies; verify critical crop or document decisions with a local expert.",
     }

@@ -61,6 +61,7 @@ def health():
         "mongodb_uri_scheme": db_manager.uri_scheme,
         "mongodb_error": None if mongo_ok else db_manager.last_error_summary,
         "gemini_configured": bool(settings.GEMINI_API_KEY),
+        "gemini_model": settings.GEMINI_MODEL,
         "agmarknet_configured": bool(settings.DATA_GOV_API_KEY),
         "rate_limiting": settings.RATE_LIMIT_ENABLED,
         "rag_chunks": len(rag_store.documents),

@@ -53,7 +53,7 @@ class SecurityHeadersAndRateLimitMiddleware(BaseHTTPMiddleware):
             ip = _client_ip(request)
             if path.startswith("/api/auth/"):
                 bucket, limit = f"auth:{ip}", settings.RATE_LIMIT_AUTH_PER_MINUTE
-            elif path in ("/api/chat", "/api/image/analyze", "/api/voice/assist") or path.startswith("/api/documents"):
+            elif path in ("/api/chat", "/api/image/analyze", "/api/voice/assist", "/api/translate") or path.startswith("/api/documents"):
                 bucket, limit = f"ai:{ip}", settings.RATE_LIMIT_AI_PER_MINUTE
             else:
                 bucket, limit = f"api:{ip}", settings.RATE_LIMIT_DEFAULT_PER_MINUTE
@@ -92,15 +92,26 @@ class SecurityHeadersAndRateLimitMiddleware(BaseHTTPMiddleware):
         return response
 
 
+def detect_image_mime_type(data: bytes) -> str | None:
+    """Detects supported image MIME type strictly from file header magic bytes."""
+    if data.startswith(b"\xff\xd8\xff"):
+        return "image/jpeg"
+    if data.startswith(b"\x89PNG\r\n\x1a\n"):
+        return "image/png"
+    if len(data) >= 12 and data[:4] == b"RIFF" and data[8:12] == b"WEBP":
+        return "image/webp"
+    if data.startswith((b"GIF87a", b"GIF89a")):
+        return "image/gif"
+    return None
+
+
 def validate_image_magic_bytes(data: bytes, content_type: str) -> bool:
     """Verifies file header magic bytes match declared image MIME type."""
-    if content_type == "image/jpeg":
-        return data.startswith(b"\xff\xd8\xff")
-    if content_type == "image/png":
-        return data.startswith(b"\x89PNG\r\n\x1a\n")
-    if content_type == "image/webp":
-        return len(data) >= 12 and data[:4] == b"RIFF" and data[8:12] == b"WEBP"
-    return False
+    normalized = (content_type or "").split(";")[0].strip().lower()
+    if normalized == "image/jpg":
+        normalized = "image/jpeg"
+    detected = detect_image_mime_type(data)
+    return detected is not None and detected == normalized
 
 
 def validate_pdf_magic_bytes(data: bytes) -> bool:

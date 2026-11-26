@@ -8,6 +8,7 @@ export default function DocumentAssistantPage() {
   const { documents, addDocument, language, selectedProfession, t } = useApp();
   const [selectedDoc, setSelectedDoc] = useState(documents[0] || null);
   const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const [asking, setAsking] = useState(false);
@@ -16,9 +17,14 @@ export default function DocumentAssistantPage() {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
+    setUploadError('');
     const doc = await api.uploadDocument(file, language);
-    addDocument(doc);
-    setSelectedDoc(doc);
+    if (doc?.isError) {
+      setUploadError(doc.error || 'Failed to upload document.');
+    } else {
+      addDocument(doc);
+      setSelectedDoc(doc);
+    }
     setUploading(false);
   };
 
@@ -62,6 +68,12 @@ export default function DocumentAssistantPage() {
               {t('documentAssistant.uploadSubtitle')}
             </div>
           </label>
+
+          {uploadError && (
+            <div className="p-3.5 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-[12.5px]">
+              {uploadError}
+            </div>
+          )}
 
           <div className="bg-white rounded-[24px] p-5 border border-[#ECEAF6] shadow-sm space-y-2.5">
             <h3 className="text-[14px] font-bold text-[#171638]">
